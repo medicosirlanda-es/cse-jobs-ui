@@ -491,8 +491,8 @@ var SIZE_CLASSES = {
   md: "px-3 py-1.5 text-xs gap-1.5 rounded-lg"
 };
 function JobPill({ icon, children, size = "sm" }) {
-  return /* @__PURE__ */ jsxs2("span", { className: `inline-flex items-center font-semibold tracking-wide text-primary bg-primary/[0.06] border border-primary/[0.12] ${SIZE_CLASSES[size]}`, children: [
-    icon && /* @__PURE__ */ jsx2("span", { className: "shrink-0 text-primary/60", children: icon }),
+  return /* @__PURE__ */ jsxs2("span", { className: `job-pill inline-flex items-center font-semibold tracking-wide text-primary/85 ${SIZE_CLASSES[size]}`, children: [
+    icon && /* @__PURE__ */ jsx2("span", { className: "shrink-0 text-primary/50", children: icon }),
     children
   ] });
 }
