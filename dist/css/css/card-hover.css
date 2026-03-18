@@ -1,0 +1,12 @@
+.job-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.job-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+}
+
+.job-card-hover:hover .job-card-border {
+  border-color: var(--color-primary, #2d64b0);
+}
