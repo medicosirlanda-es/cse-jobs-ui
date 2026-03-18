@@ -483,8 +483,31 @@ function ClosingBadge({ closingDate, locale = "en", variant = "inline" }) {
   ] });
 }
 
+// src/components/job-pill.tsx
+import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
+var SIZE_CLASSES = {
+  xs: "px-2 py-0.5 text-[10px] gap-1",
+  sm: "px-2.5 py-1 text-[11px] gap-1",
+  md: "px-3 py-1.5 text-xs gap-1.5"
+};
+function JobPill({ icon, children, size = "sm" }) {
+  return /* @__PURE__ */ jsxs2("span", { className: `inline-flex items-center font-medium rounded-full bg-primary/8 text-primary/90 ${SIZE_CLASSES[size]}`, children: [
+    icon && /* @__PURE__ */ jsx2("span", { className: "shrink-0 text-primary/50", children: icon }),
+    children
+  ] });
+}
+function LocationIcon({ className = "w-3 h-3" }) {
+  return /* @__PURE__ */ jsxs2("svg", { className, fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
+    /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
+    /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
+  ] });
+}
+function CalendarIcon({ className = "w-3 h-3" }) {
+  return /* @__PURE__ */ jsx2("svg", { className, fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) });
+}
+
 // src/components/job-card.tsx
-import { Fragment, jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
 function capitalizeCounty(county) {
   if (!county) return "";
   return county.split(/[\s-]+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
@@ -527,51 +550,42 @@ function JobCard({
   const county = job.county ? formatCounty2(job.county) : null;
   const contractBadge = getContractBadge(job, locale);
   const summary = job.descriptionSummary ? truncateSummary(job.descriptionSummary, 120) : null;
-  const card = /* @__PURE__ */ jsx2(
+  const card = /* @__PURE__ */ jsx3(
     Link,
     {
       href,
       className: "group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl",
-      children: /* @__PURE__ */ jsx2("article", { className: "job-card-hover flex flex-col h-full bg-white rounded-xl border border-gray-200 job-card-border shadow-sm overflow-hidden", children: /* @__PURE__ */ jsxs2("div", { className: "p-5 flex flex-col flex-grow", children: [
-        /* @__PURE__ */ jsxs2("div", { className: "flex items-center gap-2 flex-wrap mb-3", children: [
-          county && /* @__PURE__ */ jsxs2("span", { className: "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium bg-gray-100 text-gray-600", children: [
-            /* @__PURE__ */ jsxs2("svg", { className: "w-3 h-3 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
-              /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
-              /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
-            ] }),
-            county
-          ] }),
-          contractBadge && /* @__PURE__ */ jsxs2("span", { className: "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium bg-gray-100 text-gray-600", children: [
-            /* @__PURE__ */ jsx2("svg", { className: "w-3 h-3 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
-            contractBadge
-          ] })
+      children: /* @__PURE__ */ jsx3("article", { className: "job-card-hover flex flex-col h-full bg-white rounded-xl border border-gray-200 job-card-border shadow-sm overflow-hidden", children: /* @__PURE__ */ jsxs3("div", { className: "p-5 flex flex-col flex-grow", children: [
+        /* @__PURE__ */ jsxs3("div", { className: "flex items-center justify-between gap-2 mb-3", children: [
+          /* @__PURE__ */ jsx3("div", { children: contractBadge && /* @__PURE__ */ jsx3(JobPill, { icon: /* @__PURE__ */ jsx3(CalendarIcon, {}), children: contractBadge }) }),
+          /* @__PURE__ */ jsx3("div", { children: county && /* @__PURE__ */ jsx3(JobPill, { icon: /* @__PURE__ */ jsx3(LocationIcon, {}), children: county }) })
         ] }),
-        /* @__PURE__ */ jsx2("h3", { className: "text-lg font-bold text-primary transition-colors duration-300 group-hover:text-primary/80 mb-1", children: isConsultant && specialty ? /* @__PURE__ */ jsxs2(Fragment, { children: [
-          /* @__PURE__ */ jsx2("span", { children: categoryLabel }),
+        /* @__PURE__ */ jsx3("h3", { className: "text-lg font-bold text-primary transition-colors duration-300 group-hover:text-primary/80 mb-1", children: isConsultant && specialty ? /* @__PURE__ */ jsxs3(Fragment, { children: [
+          /* @__PURE__ */ jsx3("span", { children: categoryLabel }),
           " ",
-          /* @__PURE__ */ jsx2("span", { className: "specialty-shimmer", children: specialty })
-        ] }) : /* @__PURE__ */ jsx2("span", { children: job.title }) }),
-        summary && /* @__PURE__ */ jsx2("p", { className: "text-sm text-gray-500 line-clamp-2 mb-2", children: summary }),
-        /* @__PURE__ */ jsx2("div", { className: "flex-grow" }),
-        /* @__PURE__ */ jsxs2("div", { className: "flex items-center gap-3 pt-3 border-t border-gray-100 mt-2", children: [
-          /* @__PURE__ */ jsx2(ClosingBadge, { closingDate: job.closingDate, locale }),
-          salaryText && /* @__PURE__ */ jsx2("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
-          /* @__PURE__ */ jsxs2("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 ml-auto", children: [
+          /* @__PURE__ */ jsx3("span", { className: "specialty-shimmer", children: specialty })
+        ] }) : /* @__PURE__ */ jsx3("span", { children: job.title }) }),
+        summary && /* @__PURE__ */ jsx3("p", { className: "text-sm text-gray-500 line-clamp-2 mb-2", children: summary }),
+        /* @__PURE__ */ jsx3("div", { className: "flex-grow" }),
+        /* @__PURE__ */ jsxs3("div", { className: "flex items-center gap-3 pt-3 border-t border-gray-100 mt-2", children: [
+          /* @__PURE__ */ jsx3(ClosingBadge, { closingDate: job.closingDate, locale }),
+          salaryText && /* @__PURE__ */ jsx3("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
+          /* @__PURE__ */ jsxs3("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 ml-auto", children: [
             t("view_offer", locale),
-            /* @__PURE__ */ jsx2("svg", { className: "w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) })
+            /* @__PURE__ */ jsx3("svg", { className: "w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx3("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) })
           ] })
         ] })
       ] }) })
     }
   );
   if (renderWrapper) {
-    return /* @__PURE__ */ jsx2(Fragment, { children: renderWrapper({ children: card, job, index }) });
+    return /* @__PURE__ */ jsx3(Fragment, { children: renderWrapper({ children: card, job, index }) });
   }
   return card;
 }
 
 // src/components/job-card-grid.tsx
-import { jsx as jsx3 } from "react/jsx-runtime";
+import { jsx as jsx4 } from "react/jsx-runtime";
 function JobCardGrid({
   jobs,
   locale,
@@ -581,7 +595,7 @@ function JobCardGrid({
   columns = 3
 }) {
   const gridClass = columns === 2 ? "grid grid-cols-1 md:grid-cols-2 gap-6" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
-  return /* @__PURE__ */ jsx3("div", { className: gridClass, children: jobs.map((job, index) => /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx4("div", { className: gridClass, children: jobs.map((job, index) => /* @__PURE__ */ jsx4(
     JobCard,
     {
       job,
@@ -597,7 +611,7 @@ function JobCardGrid({
 
 // src/components/past-job-card.tsx
 import Link2 from "next/link";
-import { Fragment as Fragment2, jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
 function PastJobCard({ job, locale, href }) {
   const salaryText = formatSalary(job.salary, locale);
   const closedDate = getClosedDate(job.closingDate, locale);
@@ -605,39 +619,39 @@ function PastJobCard({ job, locale, href }) {
   const parsed = isConsultant ? parseConsultantTitle(job.title) : null;
   const displayTitle = parsed?.displayTitle || job.title;
   const countyForBadge = parsed?.county || job.county;
-  return /* @__PURE__ */ jsx4(
+  return /* @__PURE__ */ jsx5(
     Link2,
     {
       href,
       className: "group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 rounded-xl",
-      children: /* @__PURE__ */ jsx4("article", { className: "flex flex-col h-full bg-gray-50 rounded-xl border border-gray-200 shadow-sm overflow-hidden opacity-60 grayscale-[30%] transition-all duration-200 hover:opacity-80 hover:grayscale-0", children: /* @__PURE__ */ jsxs3("div", { className: "p-5 flex flex-col flex-grow", children: [
-        /* @__PURE__ */ jsx4("div", { className: "flex items-center justify-between gap-2 mb-3", children: /* @__PURE__ */ jsxs3("div", { className: "flex items-center gap-1.5 flex-wrap min-w-0", children: [
-          /* @__PURE__ */ jsxs3("span", { className: "inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold uppercase tracking-wide rounded-full bg-gray-200 text-gray-600", children: [
-            /* @__PURE__ */ jsx4("svg", { className: "w-3 h-3", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx4("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" }) }),
+      children: /* @__PURE__ */ jsx5("article", { className: "flex flex-col h-full bg-gray-50 rounded-xl border border-gray-200 shadow-sm overflow-hidden opacity-60 grayscale-[30%] transition-all duration-200 hover:opacity-80 hover:grayscale-0", children: /* @__PURE__ */ jsxs4("div", { className: "p-5 flex flex-col flex-grow", children: [
+        /* @__PURE__ */ jsx5("div", { className: "flex items-center justify-between gap-2 mb-3", children: /* @__PURE__ */ jsxs4("div", { className: "flex items-center gap-1.5 flex-wrap min-w-0", children: [
+          /* @__PURE__ */ jsxs4("span", { className: "inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold uppercase tracking-wide rounded-full bg-gray-200 text-gray-600", children: [
+            /* @__PURE__ */ jsx5("svg", { className: "w-3 h-3", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx5("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" }) }),
             closedDate || t("closed", locale)
           ] }),
-          isConsultant ? /* @__PURE__ */ jsxs3(Fragment2, { children: [
-            countyForBadge && /* @__PURE__ */ jsx4("span", { className: "px-2 py-1 text-[10px] font-medium rounded-full bg-gray-100 text-gray-500 truncate max-w-[100px]", children: countyForBadge }),
-            job.contractType && /* @__PURE__ */ jsx4("span", { className: "px-2 py-1 text-[10px] font-medium rounded-full bg-gray-100 text-gray-500", children: getContractLabel2(job.contractType, locale) })
-          ] }) : /* @__PURE__ */ jsx4("span", { className: "px-2 py-1 text-[10px] font-medium uppercase tracking-wide rounded-full bg-gray-100 text-gray-500", children: getCategoryLabel(job.category, locale) })
+          isConsultant ? /* @__PURE__ */ jsxs4(Fragment2, { children: [
+            countyForBadge && /* @__PURE__ */ jsx5("span", { className: "px-2 py-1 text-[10px] font-medium rounded-full bg-gray-100 text-gray-500 truncate max-w-[100px]", children: countyForBadge }),
+            job.contractType && /* @__PURE__ */ jsx5("span", { className: "px-2 py-1 text-[10px] font-medium rounded-full bg-gray-100 text-gray-500", children: getContractLabel2(job.contractType, locale) })
+          ] }) : /* @__PURE__ */ jsx5("span", { className: "px-2 py-1 text-[10px] font-medium uppercase tracking-wide rounded-full bg-gray-100 text-gray-500", children: getCategoryLabel(job.category, locale) })
         ] }) }),
-        /* @__PURE__ */ jsx4("h3", { className: "text-lg font-bold text-gray-600 mb-2 line-clamp-2 group-hover:text-gray-800 transition-colors", children: displayTitle }),
-        !isConsultant && job.county && /* @__PURE__ */ jsxs3("div", { className: "flex items-center gap-1.5 text-sm text-gray-500 mb-2", children: [
-          /* @__PURE__ */ jsxs3("svg", { className: "w-4 h-4 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
-            /* @__PURE__ */ jsx4("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
-            /* @__PURE__ */ jsx4("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
+        /* @__PURE__ */ jsx5("h3", { className: "text-lg font-bold text-gray-600 mb-2 line-clamp-2 group-hover:text-gray-800 transition-colors", children: displayTitle }),
+        !isConsultant && job.county && /* @__PURE__ */ jsxs4("div", { className: "flex items-center gap-1.5 text-sm text-gray-500 mb-2", children: [
+          /* @__PURE__ */ jsxs4("svg", { className: "w-4 h-4 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
+            /* @__PURE__ */ jsx5("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
+            /* @__PURE__ */ jsx5("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
           ] }),
-          /* @__PURE__ */ jsx4("span", { className: "truncate", children: job.county })
+          /* @__PURE__ */ jsx5("span", { className: "truncate", children: job.county })
         ] }),
-        job.descriptionSummary && /* @__PURE__ */ jsx4("p", { className: "text-sm text-gray-500 line-clamp-2 mb-3 flex-grow", children: job.descriptionSummary }),
-        /* @__PURE__ */ jsxs3("div", { className: "flex items-center justify-between pt-3 border-t border-gray-200 mt-auto", children: [
-          /* @__PURE__ */ jsxs3("div", { className: "flex items-center gap-3", children: [
-            salaryText && /* @__PURE__ */ jsx4("span", { className: "text-sm font-semibold text-gray-500 tabular-nums", children: salaryText }),
-            !isConsultant && job.contractType && /* @__PURE__ */ jsx4("span", { className: "text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-500", children: getContractLabel2(job.contractType, locale) })
+        job.descriptionSummary && /* @__PURE__ */ jsx5("p", { className: "text-sm text-gray-500 line-clamp-2 mb-3 flex-grow", children: job.descriptionSummary }),
+        /* @__PURE__ */ jsxs4("div", { className: "flex items-center justify-between pt-3 border-t border-gray-200 mt-auto", children: [
+          /* @__PURE__ */ jsxs4("div", { className: "flex items-center gap-3", children: [
+            salaryText && /* @__PURE__ */ jsx5("span", { className: "text-sm font-semibold text-gray-500 tabular-nums", children: salaryText }),
+            !isConsultant && job.contractType && /* @__PURE__ */ jsx5("span", { className: "text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-500", children: getContractLabel2(job.contractType, locale) })
           ] }),
-          /* @__PURE__ */ jsxs3("span", { className: "inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-gray-500 bg-gray-100 rounded-full group-hover:bg-gray-200 group-hover:text-gray-700 transition-all duration-200", children: [
+          /* @__PURE__ */ jsxs4("span", { className: "inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-gray-500 bg-gray-100 rounded-full group-hover:bg-gray-200 group-hover:text-gray-700 transition-all duration-200", children: [
             t("view", locale),
-            /* @__PURE__ */ jsx4("svg", { className: "w-3 h-3 transition-transform group-hover:translate-x-0.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx4("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) })
+            /* @__PURE__ */ jsx5("svg", { className: "w-3 h-3 transition-transform group-hover:translate-x-0.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx5("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) })
           ] })
         ] })
       ] }) })
@@ -647,13 +661,13 @@ function PastJobCard({ job, locale, href }) {
 
 // src/components/past-offers-section.tsx
 import { useState } from "react";
-import { jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 function PastOffersSection({ count, locale, children }) {
   const [isOpen, setIsOpen] = useState(false);
   if (count === 0) return null;
   const countLabel = count === 1 ? t("past_offers_count_one", locale) : t("past_offers_count_other", locale);
-  return /* @__PURE__ */ jsxs4("section", { className: "max-w-6xl mx-auto", children: [
-    /* @__PURE__ */ jsxs4(
+  return /* @__PURE__ */ jsxs5("section", { className: "max-w-6xl mx-auto", children: [
+    /* @__PURE__ */ jsxs5(
       "button",
       {
         onClick: () => setIsOpen((prev) => !prev),
@@ -662,18 +676,18 @@ function PastOffersSection({ count, locale, children }) {
         "aria-controls": "past-offers-content",
         type: "button",
         children: [
-          /* @__PURE__ */ jsxs4("div", { className: "flex items-center gap-3", children: [
-            /* @__PURE__ */ jsx5("div", { className: "flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-500 group-hover:bg-gray-300 transition-colors", children: /* @__PURE__ */ jsx5("svg", { className: "w-5 h-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx5("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" }) }) }),
-            /* @__PURE__ */ jsxs4("div", { className: "text-left", children: [
-              /* @__PURE__ */ jsx5("h2", { className: "text-base md:text-lg font-semibold text-gray-700", children: t("past_offers", locale) }),
-              /* @__PURE__ */ jsxs4("p", { className: "text-sm text-gray-500", children: [
+          /* @__PURE__ */ jsxs5("div", { className: "flex items-center gap-3", children: [
+            /* @__PURE__ */ jsx6("div", { className: "flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-500 group-hover:bg-gray-300 transition-colors", children: /* @__PURE__ */ jsx6("svg", { className: "w-5 h-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx6("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" }) }) }),
+            /* @__PURE__ */ jsxs5("div", { className: "text-left", children: [
+              /* @__PURE__ */ jsx6("h2", { className: "text-base md:text-lg font-semibold text-gray-700", children: t("past_offers", locale) }),
+              /* @__PURE__ */ jsxs5("p", { className: "text-sm text-gray-500", children: [
                 count,
                 " ",
                 countLabel
               ] })
             ] })
           ] }),
-          /* @__PURE__ */ jsx5(
+          /* @__PURE__ */ jsx6(
             "svg",
             {
               className: `w-5 h-5 text-gray-400 transition-transform duration-200 ease-out ${isOpen ? "rotate-180" : ""}`,
@@ -681,13 +695,13 @@ function PastOffersSection({ count, locale, children }) {
               viewBox: "0 0 24 24",
               stroke: "currentColor",
               "aria-hidden": "true",
-              children: /* @__PURE__ */ jsx5("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M19 9l-7 7-7-7" })
+              children: /* @__PURE__ */ jsx6("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M19 9l-7 7-7-7" })
             }
           )
         ]
       }
     ),
-    /* @__PURE__ */ jsxs4(
+    /* @__PURE__ */ jsxs5(
       "div",
       {
         id: "past-offers-content",
@@ -695,7 +709,7 @@ function PastOffersSection({ count, locale, children }) {
         "aria-hidden": !isOpen,
         children: [
           children,
-          /* @__PURE__ */ jsx5("p", { className: "mt-6 text-center text-sm text-gray-400", children: t("past_offers_note", locale) })
+          /* @__PURE__ */ jsx6("p", { className: "mt-6 text-center text-sm text-gray-400", children: t("past_offers_note", locale) })
         ]
       }
     )
@@ -707,7 +721,7 @@ import { useState as useState5, useCallback as useCallback4 } from "react";
 
 // src/components/filter-dropdown.tsx
 import { useState as useState2, useRef, useEffect, useCallback } from "react";
-import { jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
+import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
 function FilterDropdown({
   label,
   options,
@@ -759,8 +773,8 @@ function FilterDropdown({
   };
   const hasSelection = selectedValues.length > 0;
   const defaultSearchPlaceholder = searchPlaceholder || t("search", locale);
-  return /* @__PURE__ */ jsxs5("div", { ref: dropdownRef, className: `relative ${className}`, children: [
-    /* @__PURE__ */ jsxs5(
+  return /* @__PURE__ */ jsxs6("div", { ref: dropdownRef, className: `relative ${className}`, children: [
+    /* @__PURE__ */ jsxs6(
       "button",
       {
         ref: buttonRef,
@@ -779,8 +793,8 @@ function FilterDropdown({
         "aria-expanded": isOpen,
         "aria-haspopup": "listbox",
         children: [
-          /* @__PURE__ */ jsx6("span", { className: "truncate", children: getButtonText() }),
-          /* @__PURE__ */ jsx6(
+          /* @__PURE__ */ jsx7("span", { className: "truncate", children: getButtonText() }),
+          /* @__PURE__ */ jsx7(
             "svg",
             {
               className: `w-4 h-4 flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`,
@@ -788,13 +802,13 @@ function FilterDropdown({
               viewBox: "0 0 24 24",
               stroke: "currentColor",
               "aria-hidden": "true",
-              children: /* @__PURE__ */ jsx6("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M19 9l-7 7-7-7" })
+              children: /* @__PURE__ */ jsx7("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M19 9l-7 7-7-7" })
             }
           )
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsxs5(
+    isOpen && /* @__PURE__ */ jsxs6(
       "div",
       {
         className: `absolute z-50 mt-2 w-full max-h-[300px] overflow-hidden bg-white rounded-xl border border-gray-200/80 shadow-xl
@@ -804,8 +818,8 @@ function FilterDropdown({
         "aria-multiselectable": "true",
         onKeyDown: handleKeyDown,
         children: [
-          searchable && /* @__PURE__ */ jsx6("div", { className: "p-2 border-b border-gray-100", children: /* @__PURE__ */ jsxs5("div", { className: "relative", children: [
-            /* @__PURE__ */ jsx6(
+          searchable && /* @__PURE__ */ jsx7("div", { className: "p-2 border-b border-gray-100", children: /* @__PURE__ */ jsxs6("div", { className: "relative", children: [
+            /* @__PURE__ */ jsx7(
               "svg",
               {
                 className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400",
@@ -813,10 +827,10 @@ function FilterDropdown({
                 viewBox: "0 0 24 24",
                 stroke: "currentColor",
                 "aria-hidden": "true",
-                children: /* @__PURE__ */ jsx6("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" })
+                children: /* @__PURE__ */ jsx7("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" })
               }
             ),
-            /* @__PURE__ */ jsx6(
+            /* @__PURE__ */ jsx7(
               "input",
               {
                 type: "text",
@@ -830,9 +844,9 @@ function FilterDropdown({
               }
             )
           ] }) }),
-          /* @__PURE__ */ jsx6("div", { className: "overflow-y-auto max-h-[240px] p-1", children: filteredOptions.length === 0 ? /* @__PURE__ */ jsx6("div", { className: "px-3 py-4 text-sm text-gray-500 text-center", children: t("no_results", locale) }) : filteredOptions.map((option) => {
+          /* @__PURE__ */ jsx7("div", { className: "overflow-y-auto max-h-[240px] p-1", children: filteredOptions.length === 0 ? /* @__PURE__ */ jsx7("div", { className: "px-3 py-4 text-sm text-gray-500 text-center", children: t("no_results", locale) }) : filteredOptions.map((option) => {
             const isSelected = selectedValues.includes(option.value);
-            return /* @__PURE__ */ jsxs5(
+            return /* @__PURE__ */ jsxs6(
               "button",
               {
                 type: "button",
@@ -848,7 +862,7 @@ function FilterDropdown({
                 role: "option",
                 "aria-selected": isSelected,
                 children: [
-                  /* @__PURE__ */ jsx6(
+                  /* @__PURE__ */ jsx7(
                     "span",
                     {
                       className: `
@@ -857,25 +871,25 @@ function FilterDropdown({
                         transition-all duration-200 ease-out
                         ${isSelected ? "bg-primary border-primary scale-100" : "border-gray-300 scale-100 hover:border-primary/50"}
                       `,
-                      children: /* @__PURE__ */ jsx6(
+                      children: /* @__PURE__ */ jsx7(
                         "svg",
                         {
                           className: `w-3 h-3 text-white transition-all duration-200 ${isSelected ? "scale-100 opacity-100" : "scale-0 opacity-0"}`,
                           fill: "none",
                           viewBox: "0 0 24 24",
                           stroke: "currentColor",
-                          children: /* @__PURE__ */ jsx6("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 3, d: "M5 13l4 4L19 7" })
+                          children: /* @__PURE__ */ jsx7("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 3, d: "M5 13l4 4L19 7" })
                         }
                       )
                     }
                   ),
-                  /* @__PURE__ */ jsx6("span", { className: "truncate", children: option.label })
+                  /* @__PURE__ */ jsx7("span", { className: "truncate", children: option.label })
                 ]
               },
               option.value
             );
           }) }),
-          selectedValues.length > 0 && /* @__PURE__ */ jsx6("div", { className: "p-2 border-t border-gray-100", children: /* @__PURE__ */ jsx6(
+          selectedValues.length > 0 && /* @__PURE__ */ jsx7("div", { className: "p-2 border-t border-gray-100", children: /* @__PURE__ */ jsx7(
             "button",
             {
               type: "button",
@@ -891,7 +905,7 @@ function FilterDropdown({
 }
 
 // src/components/filter-chips.tsx
-import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
 function FilterChips({
   chips,
   onClearAll,
@@ -901,34 +915,34 @@ function FilterChips({
   if (chips.length === 0) return null;
   const visibleChips = chips.slice(0, maxVisible);
   const hiddenCount = chips.length - maxVisible;
-  return /* @__PURE__ */ jsxs6("div", { className: "flex items-center gap-2 flex-wrap", children: [
-    visibleChips.map((chip) => /* @__PURE__ */ jsxs6(
+  return /* @__PURE__ */ jsxs7("div", { className: "flex items-center gap-2 flex-wrap", children: [
+    visibleChips.map((chip) => /* @__PURE__ */ jsxs7(
       "span",
       {
         className: "group inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-full transition-all duration-200 hover:bg-primary/15 hover:shadow-sm",
         children: [
-          /* @__PURE__ */ jsx7("span", { className: "truncate max-w-[120px]", children: chip.label }),
-          /* @__PURE__ */ jsx7(
+          /* @__PURE__ */ jsx8("span", { className: "truncate max-w-[120px]", children: chip.label }),
+          /* @__PURE__ */ jsx8(
             "button",
             {
               type: "button",
               onClick: chip.onRemove,
               className: "flex-shrink-0 p-0.5 hover:bg-primary/30 active:scale-90 rounded-full transition-all duration-150",
               "aria-label": `${t("remove_filter", locale)} ${chip.label}`,
-              children: /* @__PURE__ */ jsx7("svg", { className: "w-3.5 h-3.5 transition-transform duration-150 group-hover:scale-110", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx7("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) })
+              children: /* @__PURE__ */ jsx8("svg", { className: "w-3.5 h-3.5 transition-transform duration-150 group-hover:scale-110", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx8("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) })
             }
           )
         ]
       },
       chip.key
     )),
-    hiddenCount > 0 && /* @__PURE__ */ jsxs6("span", { className: "px-3 py-1.5 text-sm text-gray-600 bg-gray-100 rounded-full", children: [
+    hiddenCount > 0 && /* @__PURE__ */ jsxs7("span", { className: "px-3 py-1.5 text-sm text-gray-600 bg-gray-100 rounded-full", children: [
       "+",
       hiddenCount,
       " ",
       t("more", locale)
     ] }),
-    /* @__PURE__ */ jsx7(
+    /* @__PURE__ */ jsx8(
       "button",
       {
         type: "button",
@@ -942,7 +956,7 @@ function FilterChips({
 
 // src/components/sort-dropdown.tsx
 import { useState as useState3, useRef as useRef2, useEffect as useEffect2, useCallback as useCallback2 } from "react";
-import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx9, jsxs as jsxs8 } from "react/jsx-runtime";
 function SortDropdown({ value, options, onChange, locale = "en" }) {
   const [isOpen, setIsOpen] = useState3(false);
   const dropdownRef = useRef2(null);
@@ -965,8 +979,8 @@ function SortDropdown({ value, options, onChange, locale = "en" }) {
       buttonRef.current?.focus();
     }
   }, []);
-  return /* @__PURE__ */ jsxs7("div", { ref: dropdownRef, className: "relative", children: [
-    /* @__PURE__ */ jsxs7(
+  return /* @__PURE__ */ jsxs8("div", { ref: dropdownRef, className: "relative", children: [
+    /* @__PURE__ */ jsxs8(
       "button",
       {
         ref: buttonRef,
@@ -977,8 +991,8 @@ function SortDropdown({ value, options, onChange, locale = "en" }) {
         "aria-expanded": isOpen,
         "aria-haspopup": "listbox",
         children: [
-          /* @__PURE__ */ jsx8("span", { children: selectedOption?.label || t("select", locale) }),
-          /* @__PURE__ */ jsx8(
+          /* @__PURE__ */ jsx9("span", { children: selectedOption?.label || t("select", locale) }),
+          /* @__PURE__ */ jsx9(
             "svg",
             {
               className: `w-4 h-4 flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`,
@@ -986,21 +1000,21 @@ function SortDropdown({ value, options, onChange, locale = "en" }) {
               viewBox: "0 0 24 24",
               stroke: "currentColor",
               "aria-hidden": "true",
-              children: /* @__PURE__ */ jsx8("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M19 9l-7 7-7-7" })
+              children: /* @__PURE__ */ jsx9("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M19 9l-7 7-7-7" })
             }
           )
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsx8(
+    isOpen && /* @__PURE__ */ jsx9(
       "div",
       {
         className: "absolute right-0 z-50 mt-2 min-w-full bg-white rounded-xl border border-gray-200/80 shadow-xl origin-top animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-150 overflow-hidden",
         role: "listbox",
         onKeyDown: handleKeyDown,
-        children: /* @__PURE__ */ jsx8("div", { className: "p-1", children: options.map((option) => {
+        children: /* @__PURE__ */ jsx9("div", { className: "p-1", children: options.map((option) => {
           const isSelected = option.value === value;
-          return /* @__PURE__ */ jsxs7(
+          return /* @__PURE__ */ jsxs8(
             "button",
             {
               type: "button",
@@ -1019,8 +1033,8 @@ function SortDropdown({ value, options, onChange, locale = "en" }) {
               role: "option",
               "aria-selected": isSelected,
               children: [
-                /* @__PURE__ */ jsx8("span", { className: `flex items-center justify-center w-4 h-4 rounded-full border-2 transition-all duration-200 ${isSelected ? "border-primary" : "border-gray-300"}`, children: /* @__PURE__ */ jsx8("span", { className: `w-2 h-2 rounded-full bg-primary transition-all duration-200 ${isSelected ? "scale-100 opacity-100" : "scale-0 opacity-0"}` }) }),
-                /* @__PURE__ */ jsx8("span", { children: option.label })
+                /* @__PURE__ */ jsx9("span", { className: `flex items-center justify-center w-4 h-4 rounded-full border-2 transition-all duration-200 ${isSelected ? "border-primary" : "border-gray-300"}`, children: /* @__PURE__ */ jsx9("span", { className: `w-2 h-2 rounded-full bg-primary transition-all duration-200 ${isSelected ? "scale-100 opacity-100" : "scale-0 opacity-0"}` }) }),
+                /* @__PURE__ */ jsx9("span", { children: option.label })
               ]
             },
             option.value
@@ -1033,7 +1047,7 @@ function SortDropdown({ value, options, onChange, locale = "en" }) {
 
 // src/components/mobile-filter-sheet.tsx
 import { useEffect as useEffect3, useState as useState4, useCallback as useCallback3 } from "react";
-import { Fragment as Fragment3, jsx as jsx9, jsxs as jsxs8 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx10, jsxs as jsxs9 } from "react/jsx-runtime";
 function MobileFilterSheet({
   isOpen,
   onClose,
@@ -1100,8 +1114,8 @@ function MobileFilterSheet({
   const primaryLabel = filterMode === "categories" ? t("category", locale) : t("specialty", locale);
   const activeCount = localCounties.length + localDuration.length + primaryValues.length;
   if (!isOpen) return null;
-  return /* @__PURE__ */ jsxs8(Fragment3, { children: [
-    /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsxs9(Fragment3, { children: [
+    /* @__PURE__ */ jsx10(
       "div",
       {
         className: "fixed inset-0 bg-black/50 z-40 transition-opacity duration-200",
@@ -1109,7 +1123,7 @@ function MobileFilterSheet({
         "aria-hidden": "true"
       }
     ),
-    /* @__PURE__ */ jsxs8(
+    /* @__PURE__ */ jsxs9(
       "div",
       {
         className: "fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl shadow-2xl max-h-[90dvh] flex flex-col",
@@ -1118,9 +1132,9 @@ function MobileFilterSheet({
         "aria-modal": "true",
         "aria-label": t("filters", locale),
         children: [
-          /* @__PURE__ */ jsxs8("div", { className: "flex items-center justify-between px-5 py-4 border-b border-gray-100", children: [
-            /* @__PURE__ */ jsxs8("div", { className: "flex items-center gap-3", children: [
-              /* @__PURE__ */ jsx9(
+          /* @__PURE__ */ jsxs9("div", { className: "flex items-center justify-between px-5 py-4 border-b border-gray-100", children: [
+            /* @__PURE__ */ jsxs9("div", { className: "flex items-center gap-3", children: [
+              /* @__PURE__ */ jsx10(
                 "button",
                 {
                   type: "button",
@@ -1129,33 +1143,33 @@ function MobileFilterSheet({
                   "aria-label": t("close_filter_panel", locale)
                 }
               ),
-              /* @__PURE__ */ jsx9("h2", { className: "text-lg font-semibold text-gray-900", children: t("filters", locale) }),
-              activeCount > 0 && /* @__PURE__ */ jsx9("span", { className: "px-2 py-0.5 text-xs font-medium bg-primary text-white rounded-full", children: activeCount })
+              /* @__PURE__ */ jsx10("h2", { className: "text-lg font-semibold text-gray-900", children: t("filters", locale) }),
+              activeCount > 0 && /* @__PURE__ */ jsx10("span", { className: "px-2 py-0.5 text-xs font-medium bg-primary text-white rounded-full", children: activeCount })
             ] }),
-            /* @__PURE__ */ jsx9(
+            /* @__PURE__ */ jsx10(
               "button",
               {
                 type: "button",
                 onClick: onClose,
                 className: "p-2 -mr-2 text-gray-500 hover:text-gray-700 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center",
                 "aria-label": t("close_filters", locale),
-                children: /* @__PURE__ */ jsx9("svg", { className: "w-6 h-6", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx9("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) })
+                children: /* @__PURE__ */ jsx10("svg", { className: "w-6 h-6", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx10("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) })
               }
             )
           ] }),
-          /* @__PURE__ */ jsxs8("div", { className: "flex-1 overflow-y-auto overscroll-contain px-5 py-4 space-y-6", children: [
-            /* @__PURE__ */ jsxs8("section", { children: [
-              /* @__PURE__ */ jsx9("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: primaryLabel }),
-              /* @__PURE__ */ jsx9("div", { className: "flex flex-wrap gap-2", children: primaryOptions.map((option) => {
+          /* @__PURE__ */ jsxs9("div", { className: "flex-1 overflow-y-auto overscroll-contain px-5 py-4 space-y-6", children: [
+            /* @__PURE__ */ jsxs9("section", { children: [
+              /* @__PURE__ */ jsx10("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: primaryLabel }),
+              /* @__PURE__ */ jsx10("div", { className: "flex flex-wrap gap-2", children: primaryOptions.map((option) => {
                 const isSelected = primaryValues.includes(option.value);
-                return /* @__PURE__ */ jsxs8(
+                return /* @__PURE__ */ jsxs9(
                   "button",
                   {
                     type: "button",
                     onClick: () => toggleArrayValue(primaryValues, option.value, setPrimaryValues),
                     className: `inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium rounded-full min-h-[44px] transition-all duration-150 active:scale-95 ${isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`,
                     children: [
-                      isSelected && /* @__PURE__ */ jsx9("svg", { className: "w-4 h-4 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx9("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
+                      isSelected && /* @__PURE__ */ jsx10("svg", { className: "w-4 h-4 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx10("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
                       option.label
                     ]
                   },
@@ -1163,11 +1177,11 @@ function MobileFilterSheet({
                 );
               }) })
             ] }),
-            /* @__PURE__ */ jsxs8("section", { children: [
-              /* @__PURE__ */ jsx9("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: t("county", locale) }),
-              /* @__PURE__ */ jsxs8("div", { className: "relative mb-3", children: [
-                /* @__PURE__ */ jsx9("svg", { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx9("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" }) }),
-                /* @__PURE__ */ jsx9(
+            /* @__PURE__ */ jsxs9("section", { children: [
+              /* @__PURE__ */ jsx10("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: t("county", locale) }),
+              /* @__PURE__ */ jsxs9("div", { className: "relative mb-3", children: [
+                /* @__PURE__ */ jsx10("svg", { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx10("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" }) }),
+                /* @__PURE__ */ jsx10(
                   "input",
                   {
                     type: "text",
@@ -1180,16 +1194,16 @@ function MobileFilterSheet({
                   }
                 )
               ] }),
-              /* @__PURE__ */ jsx9("div", { className: "flex flex-wrap gap-2 max-h-[180px] overflow-y-auto", children: filteredCounties.map((county) => {
+              /* @__PURE__ */ jsx10("div", { className: "flex flex-wrap gap-2 max-h-[180px] overflow-y-auto", children: filteredCounties.map((county) => {
                 const isSelected = localCounties.includes(county);
-                return /* @__PURE__ */ jsxs8(
+                return /* @__PURE__ */ jsxs9(
                   "button",
                   {
                     type: "button",
                     onClick: () => toggleArrayValue(localCounties, county, setLocalCounties),
                     className: `inline-flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg min-h-[44px] transition-all duration-150 active:scale-95 ${isSelected ? "bg-primary/10 text-primary border border-primary/30" : "bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100"}`,
                     children: [
-                      isSelected && /* @__PURE__ */ jsx9("svg", { className: "w-3.5 h-3.5 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx9("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
+                      isSelected && /* @__PURE__ */ jsx10("svg", { className: "w-3.5 h-3.5 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx10("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
                       county
                     ]
                   },
@@ -1197,18 +1211,18 @@ function MobileFilterSheet({
                 );
               }) })
             ] }),
-            /* @__PURE__ */ jsxs8("section", { children: [
-              /* @__PURE__ */ jsx9("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: t("duration", locale) }),
-              /* @__PURE__ */ jsx9("div", { className: "flex gap-3", children: durationOptions.map((option) => {
+            /* @__PURE__ */ jsxs9("section", { children: [
+              /* @__PURE__ */ jsx10("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: t("duration", locale) }),
+              /* @__PURE__ */ jsx10("div", { className: "flex gap-3", children: durationOptions.map((option) => {
                 const isSelected = localDuration.includes(option.value);
-                return /* @__PURE__ */ jsxs8(
+                return /* @__PURE__ */ jsxs9(
                   "button",
                   {
                     type: "button",
                     onClick: () => toggleArrayValue(localDuration, option.value, setLocalDuration),
                     className: `flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium rounded-xl min-h-[48px] transition-all duration-150 active:scale-95 ${isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`,
                     children: [
-                      isSelected && /* @__PURE__ */ jsx9("svg", { className: "w-4 h-4 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx9("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
+                      isSelected && /* @__PURE__ */ jsx10("svg", { className: "w-4 h-4 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx10("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
                       option.label
                     ]
                   },
@@ -1216,18 +1230,18 @@ function MobileFilterSheet({
                 );
               }) })
             ] }),
-            /* @__PURE__ */ jsxs8("section", { children: [
-              /* @__PURE__ */ jsx9("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: t("sort_by_label", locale) }),
-              /* @__PURE__ */ jsx9("div", { className: "flex gap-3", children: sortOptions.map((option) => {
+            /* @__PURE__ */ jsxs9("section", { children: [
+              /* @__PURE__ */ jsx10("h3", { className: "text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3", children: t("sort_by_label", locale) }),
+              /* @__PURE__ */ jsx10("div", { className: "flex gap-3", children: sortOptions.map((option) => {
                 const isSelected = localSort === option.value;
-                return /* @__PURE__ */ jsxs8(
+                return /* @__PURE__ */ jsxs9(
                   "button",
                   {
                     type: "button",
                     onClick: () => setLocalSort(option.value),
                     className: `flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium rounded-xl min-h-[48px] transition-all duration-150 active:scale-95 ${isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`,
                     children: [
-                      isSelected && /* @__PURE__ */ jsx9("svg", { className: "w-4 h-4 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx9("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
+                      isSelected && /* @__PURE__ */ jsx10("svg", { className: "w-4 h-4 flex-shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx10("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2.5, d: "M5 13l4 4L19 7" }) }),
                       option.label
                     ]
                   },
@@ -1236,8 +1250,8 @@ function MobileFilterSheet({
               }) })
             ] })
           ] }),
-          /* @__PURE__ */ jsxs8("div", { className: "flex gap-3 px-5 py-4 border-t border-gray-100 bg-white", children: [
-            /* @__PURE__ */ jsx9(
+          /* @__PURE__ */ jsxs9("div", { className: "flex gap-3 px-5 py-4 border-t border-gray-100 bg-white", children: [
+            /* @__PURE__ */ jsx10(
               "button",
               {
                 type: "button",
@@ -1246,7 +1260,7 @@ function MobileFilterSheet({
                 children: t("clear", locale)
               }
             ),
-            /* @__PURE__ */ jsx9(
+            /* @__PURE__ */ jsx10(
               "button",
               {
                 type: "button",
@@ -1259,7 +1273,7 @@ function MobileFilterSheet({
         ]
       }
     ),
-    /* @__PURE__ */ jsx9("style", { children: `
+    /* @__PURE__ */ jsx10("style", { children: `
         @keyframes slide-up {
           from { transform: translateY(100%); }
           to { transform: translateY(0); }
@@ -1269,7 +1283,7 @@ function MobileFilterSheet({
 }
 
 // src/components/job-filters-bar.tsx
-import { jsx as jsx10, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx11, jsxs as jsxs10 } from "react/jsx-runtime";
 function JobFiltersBar({ mode, locale }) {
   const {
     filters,
@@ -1329,11 +1343,11 @@ function JobFiltersBar({ mode, locale }) {
     if (opt) chips.push({ key: `dur-${d}`, label: opt.label, onRemove: () => toggleFilter("duration", d) });
   });
   const secondaryFilterCount = filters.counties.length + filters.duration.length;
-  return /* @__PURE__ */ jsxs9("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ jsx10("div", { className: "sr-only", role: "status", "aria-live": "polite", "aria-atomic": "true", children: hasActiveFilters ? `${activeFilterCount} ${t("active_filters", locale)}` : t("no_active_filters", locale) }),
-    /* @__PURE__ */ jsxs9("div", { className: "bg-gradient-to-b from-white to-gray-50/80 rounded-xl border border-gray-200/80 shadow-md p-3 md:p-4", children: [
-      /* @__PURE__ */ jsxs9("div", { className: "hidden md:flex items-center gap-3", children: [
-        /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsxs10("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ jsx11("div", { className: "sr-only", role: "status", "aria-live": "polite", "aria-atomic": "true", children: hasActiveFilters ? `${activeFilterCount} ${t("active_filters", locale)}` : t("no_active_filters", locale) }),
+    /* @__PURE__ */ jsxs10("div", { className: "bg-gradient-to-b from-white to-gray-50/80 rounded-xl border border-gray-200/80 shadow-md p-3 md:p-4", children: [
+      /* @__PURE__ */ jsxs10("div", { className: "hidden md:flex items-center gap-3", children: [
+        /* @__PURE__ */ jsx11(
           FilterDropdown,
           {
             label: primaryFilterConfig.label,
@@ -1347,7 +1361,7 @@ function JobFiltersBar({ mode, locale }) {
             className: mode === "consultant" ? "min-w-[220px]" : "min-w-[180px]"
           }
         ),
-        /* @__PURE__ */ jsx10(
+        /* @__PURE__ */ jsx11(
           FilterDropdown,
           {
             label: t("county", locale),
@@ -1360,7 +1374,7 @@ function JobFiltersBar({ mode, locale }) {
             className: "min-w-[160px]"
           }
         ),
-        /* @__PURE__ */ jsx10(
+        /* @__PURE__ */ jsx11(
           FilterDropdown,
           {
             label: t("duration", locale),
@@ -1371,10 +1385,10 @@ function JobFiltersBar({ mode, locale }) {
             className: "min-w-[140px]"
           }
         ),
-        /* @__PURE__ */ jsx10("div", { className: "flex-1" }),
-        /* @__PURE__ */ jsxs9("div", { className: "flex items-center gap-2", children: [
-          /* @__PURE__ */ jsx10("span", { className: "text-sm text-gray-500", children: t("sort_by", locale) }),
-          /* @__PURE__ */ jsx10(
+        /* @__PURE__ */ jsx11("div", { className: "flex-1" }),
+        /* @__PURE__ */ jsxs10("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsx11("span", { className: "text-sm text-gray-500", children: t("sort_by", locale) }),
+          /* @__PURE__ */ jsx11(
             SortDropdown,
             {
               value: filters.sort,
@@ -1385,8 +1399,8 @@ function JobFiltersBar({ mode, locale }) {
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxs9("div", { className: "flex md:hidden items-center gap-2", children: [
-        /* @__PURE__ */ jsx10(
+      /* @__PURE__ */ jsxs10("div", { className: "flex md:hidden items-center gap-2", children: [
+        /* @__PURE__ */ jsx11(
           FilterDropdown,
           {
             label: primaryFilterConfig.label,
@@ -1397,7 +1411,7 @@ function JobFiltersBar({ mode, locale }) {
             className: "flex-1"
           }
         ),
-        /* @__PURE__ */ jsxs9(
+        /* @__PURE__ */ jsxs10(
           "button",
           {
             type: "button",
@@ -1407,17 +1421,17 @@ function JobFiltersBar({ mode, locale }) {
             },
             className: `flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-sm font-medium rounded-lg border transition-all duration-200 ease-out ${secondaryFilterCount > 0 ? "bg-primary/5 border-primary text-primary shadow-sm" : "bg-white border-gray-200 text-gray-700 hover:border-primary hover:shadow-sm"}`,
             children: [
-              /* @__PURE__ */ jsx10("svg", { className: "w-5 h-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx10("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" }) }),
-              /* @__PURE__ */ jsx10("span", { children: t("filters", locale) }),
-              secondaryFilterCount > 0 && /* @__PURE__ */ jsx10("span", { className: "flex items-center justify-center w-5 h-5 text-xs font-bold bg-primary text-white rounded-full", children: secondaryFilterCount })
+              /* @__PURE__ */ jsx11("svg", { className: "w-5 h-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx11("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" }) }),
+              /* @__PURE__ */ jsx11("span", { children: t("filters", locale) }),
+              secondaryFilterCount > 0 && /* @__PURE__ */ jsx11("span", { className: "flex items-center justify-center w-5 h-5 text-xs font-bold bg-primary text-white rounded-full", children: secondaryFilterCount })
             ]
           }
         )
       ] })
     ] }),
-    hasActiveFilters && /* @__PURE__ */ jsx10("div", { className: "hidden md:block", children: /* @__PURE__ */ jsx10(FilterChips, { chips, onClearAll: clearFilters, locale }) }),
-    hasActiveFilters && /* @__PURE__ */ jsx10("div", { className: "md:hidden", children: /* @__PURE__ */ jsx10(FilterChips, { chips, onClearAll: clearFilters, locale, maxVisible: 3 }) }),
-    /* @__PURE__ */ jsx10(
+    hasActiveFilters && /* @__PURE__ */ jsx11("div", { className: "hidden md:block", children: /* @__PURE__ */ jsx11(FilterChips, { chips, onClearAll: clearFilters, locale }) }),
+    hasActiveFilters && /* @__PURE__ */ jsx11("div", { className: "md:hidden", children: /* @__PURE__ */ jsx11(FilterChips, { chips, onClearAll: clearFilters, locale, maxVisible: 3 }) }),
+    /* @__PURE__ */ jsx11(
       MobileFilterSheet,
       {
         isOpen: isMobileSheetOpen,
@@ -1443,7 +1457,7 @@ function JobFiltersBar({ mode, locale }) {
 // src/components/apply-modal.tsx
 import { useState as useState6, useEffect as useEffect4, useRef as useRef3, useCallback as useCallback5 } from "react";
 import { createPortal } from "react-dom";
-import { Fragment as Fragment4, jsx as jsx11, jsxs as jsxs10 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx12, jsxs as jsxs11 } from "react/jsx-runtime";
 function ApplyModal({
   crmVacancyId,
   jobTitle,
@@ -1545,7 +1559,7 @@ function ApplyModal({
     }
   };
   if (!crmVacancyId && externalLink) {
-    return /* @__PURE__ */ jsxs10(
+    return /* @__PURE__ */ jsxs11(
       "a",
       {
         href: externalLink,
@@ -1554,14 +1568,14 @@ function ApplyModal({
         className: `flex items-center justify-center w-full gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-primary/90 hover:shadow-xl ${glowEffect ? "animated-border-glow" : ""}`,
         children: [
           t("submit_cv", locale),
-          /* @__PURE__ */ jsx11("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx11("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" }) })
+          /* @__PURE__ */ jsx12("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx12("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" }) })
         ]
       }
     );
   }
   const inputClassName = "w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors text-gray-900 placeholder:text-gray-400";
-  return /* @__PURE__ */ jsxs10(Fragment4, { children: [
-    /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsxs11(Fragment4, { children: [
+    /* @__PURE__ */ jsx12(
       "button",
       {
         ref: triggerRef,
@@ -1571,7 +1585,7 @@ function ApplyModal({
       }
     ),
     isOpen && typeof document !== "undefined" && createPortal(
-      /* @__PURE__ */ jsx11(
+      /* @__PURE__ */ jsx12(
         "div",
         {
           className: "fixed inset-0 z-[100] flex items-start sm:items-center justify-center bg-black/50 backdrop-blur-sm p-4 pt-8 sm:pt-4 overflow-y-auto overscroll-contain",
@@ -1581,41 +1595,41 @@ function ApplyModal({
           role: "dialog",
           "aria-modal": "true",
           "aria-labelledby": "apply-modal-title",
-          children: /* @__PURE__ */ jsxs10(
+          children: /* @__PURE__ */ jsxs11(
             "div",
             {
               ref: modalRef,
               tabIndex: -1,
               className: "relative w-full max-w-lg max-h-[calc(100vh-4rem)] sm:max-h-[90vh] overflow-hidden bg-white rounded-2xl shadow-2xl flex flex-col my-auto",
               children: [
-                /* @__PURE__ */ jsxs10("div", { className: "flex items-center justify-between p-5 border-b border-gray-100", children: [
-                  /* @__PURE__ */ jsxs10("div", { children: [
-                    /* @__PURE__ */ jsx11("h2", { id: "apply-modal-title", className: "text-lg font-bold text-gray-900", children: t("apply_to_offer", locale) }),
-                    /* @__PURE__ */ jsx11("p", { className: "text-sm text-gray-500 truncate max-w-[350px]", children: jobTitle })
+                /* @__PURE__ */ jsxs11("div", { className: "flex items-center justify-between p-5 border-b border-gray-100", children: [
+                  /* @__PURE__ */ jsxs11("div", { children: [
+                    /* @__PURE__ */ jsx12("h2", { id: "apply-modal-title", className: "text-lg font-bold text-gray-900", children: t("apply_to_offer", locale) }),
+                    /* @__PURE__ */ jsx12("p", { className: "text-sm text-gray-500 truncate max-w-[350px]", children: jobTitle })
                   ] }),
-                  /* @__PURE__ */ jsx11(
+                  /* @__PURE__ */ jsx12(
                     "button",
                     {
                       onClick: () => setIsOpen(false),
                       className: "p-2 text-gray-400 hover:text-gray-600 transition rounded-full hover:bg-gray-100",
                       "aria-label": t("close", locale),
-                      children: /* @__PURE__ */ jsx11("svg", { className: "w-5 h-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx11("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) })
+                      children: /* @__PURE__ */ jsx12("svg", { className: "w-5 h-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx12("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) })
                     }
                   )
                 ] }),
-                /* @__PURE__ */ jsx11("div", { className: "flex-1 overflow-y-auto p-5", children: formState.success ? /* @__PURE__ */ jsxs10("div", { className: "text-center py-8", children: [
-                  /* @__PURE__ */ jsx11("div", { className: "w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx11("svg", { className: "w-8 h-8 text-green-600", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx11("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M5 13l4 4L19 7" }) }) }),
-                  /* @__PURE__ */ jsx11("h3", { className: "text-xl font-bold text-gray-900 mb-2", children: t("application_sent", locale) }),
-                  /* @__PURE__ */ jsx11("p", { className: "text-gray-600 mb-4", children: t("application_sent_message", locale) }),
-                  /* @__PURE__ */ jsx11("button", { onClick: () => setIsOpen(false), className: "text-primary font-semibold hover:underline", children: t("close", locale) })
-                ] }) : /* @__PURE__ */ jsxs10("form", { ref: formRef, onSubmit: handleSubmit, className: "space-y-4", children: [
-                  /* @__PURE__ */ jsxs10("div", { children: [
-                    /* @__PURE__ */ jsxs10("label", { htmlFor: "apply-name", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
+                /* @__PURE__ */ jsx12("div", { className: "flex-1 overflow-y-auto p-5", children: formState.success ? /* @__PURE__ */ jsxs11("div", { className: "text-center py-8", children: [
+                  /* @__PURE__ */ jsx12("div", { className: "w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx12("svg", { className: "w-8 h-8 text-green-600", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx12("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M5 13l4 4L19 7" }) }) }),
+                  /* @__PURE__ */ jsx12("h3", { className: "text-xl font-bold text-gray-900 mb-2", children: t("application_sent", locale) }),
+                  /* @__PURE__ */ jsx12("p", { className: "text-gray-600 mb-4", children: t("application_sent_message", locale) }),
+                  /* @__PURE__ */ jsx12("button", { onClick: () => setIsOpen(false), className: "text-primary font-semibold hover:underline", children: t("close", locale) })
+                ] }) : /* @__PURE__ */ jsxs11("form", { ref: formRef, onSubmit: handleSubmit, className: "space-y-4", children: [
+                  /* @__PURE__ */ jsxs11("div", { children: [
+                    /* @__PURE__ */ jsxs11("label", { htmlFor: "apply-name", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
                       t("name", locale),
                       " ",
-                      /* @__PURE__ */ jsx11("span", { className: "text-red-500", children: "*" })
+                      /* @__PURE__ */ jsx12("span", { className: "text-red-500", children: "*" })
                     ] }),
-                    /* @__PURE__ */ jsx11(
+                    /* @__PURE__ */ jsx12(
                       "input",
                       {
                         type: "text",
@@ -1629,13 +1643,13 @@ function ApplyModal({
                       }
                     )
                   ] }),
-                  /* @__PURE__ */ jsxs10("div", { children: [
-                    /* @__PURE__ */ jsxs10("label", { htmlFor: "apply-email", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
+                  /* @__PURE__ */ jsxs11("div", { children: [
+                    /* @__PURE__ */ jsxs11("label", { htmlFor: "apply-email", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
                       t("email", locale),
                       " ",
-                      /* @__PURE__ */ jsx11("span", { className: "text-red-500", children: "*" })
+                      /* @__PURE__ */ jsx12("span", { className: "text-red-500", children: "*" })
                     ] }),
-                    /* @__PURE__ */ jsx11(
+                    /* @__PURE__ */ jsx12(
                       "input",
                       {
                         type: "email",
@@ -1649,17 +1663,17 @@ function ApplyModal({
                       }
                     )
                   ] }),
-                  /* @__PURE__ */ jsxs10("div", { children: [
-                    /* @__PURE__ */ jsxs10("label", { htmlFor: "apply-phone", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
+                  /* @__PURE__ */ jsxs11("div", { children: [
+                    /* @__PURE__ */ jsxs11("label", { htmlFor: "apply-phone", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
                       t("phone", locale),
                       " ",
-                      /* @__PURE__ */ jsxs10("span", { className: "text-gray-400 font-normal", children: [
+                      /* @__PURE__ */ jsxs11("span", { className: "text-gray-400 font-normal", children: [
                         "(",
                         t("optional", locale),
                         ")"
                       ] })
                     ] }),
-                    /* @__PURE__ */ jsx11(
+                    /* @__PURE__ */ jsx12(
                       "input",
                       {
                         type: "tel",
@@ -1672,13 +1686,13 @@ function ApplyModal({
                       }
                     )
                   ] }),
-                  /* @__PURE__ */ jsxs10("div", { children: [
-                    /* @__PURE__ */ jsxs10("label", { htmlFor: "apply-cv", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
+                  /* @__PURE__ */ jsxs11("div", { children: [
+                    /* @__PURE__ */ jsxs11("label", { htmlFor: "apply-cv", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
                       t("cv_upload", locale),
                       " ",
-                      /* @__PURE__ */ jsx11("span", { className: "text-red-500", children: "*" })
+                      /* @__PURE__ */ jsx12("span", { className: "text-red-500", children: "*" })
                     ] }),
-                    /* @__PURE__ */ jsx11(
+                    /* @__PURE__ */ jsx12(
                       "input",
                       {
                         type: "file",
@@ -1690,19 +1704,19 @@ function ApplyModal({
                         disabled: isPending
                       }
                     ),
-                    /* @__PURE__ */ jsx11("p", { className: "mt-1 text-xs text-gray-500", children: t("cv_formats", locale) })
+                    /* @__PURE__ */ jsx12("p", { className: "mt-1 text-xs text-gray-500", children: t("cv_formats", locale) })
                   ] }),
-                  /* @__PURE__ */ jsxs10("div", { children: [
-                    /* @__PURE__ */ jsxs10("label", { htmlFor: "apply-cover", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
+                  /* @__PURE__ */ jsxs11("div", { children: [
+                    /* @__PURE__ */ jsxs11("label", { htmlFor: "apply-cover", className: "block text-sm font-semibold text-gray-700 mb-1.5", children: [
                       t("cover_letter", locale),
                       " ",
-                      /* @__PURE__ */ jsxs10("span", { className: "text-gray-400 font-normal", children: [
+                      /* @__PURE__ */ jsxs11("span", { className: "text-gray-400 font-normal", children: [
                         "(",
                         t("optional", locale),
                         ")"
                       ] })
                     ] }),
-                    /* @__PURE__ */ jsx11(
+                    /* @__PURE__ */ jsx12(
                       "textarea",
                       {
                         id: "apply-cover",
@@ -1714,8 +1728,8 @@ function ApplyModal({
                       }
                     )
                   ] }),
-                  /* @__PURE__ */ jsxs10("div", { className: "flex items-start gap-3 p-3 bg-gray-50 rounded-xl", children: [
-                    /* @__PURE__ */ jsx11(
+                  /* @__PURE__ */ jsxs11("div", { className: "flex items-start gap-3 p-3 bg-gray-50 rounded-xl", children: [
+                    /* @__PURE__ */ jsx12(
                       "input",
                       {
                         type: "checkbox",
@@ -1726,33 +1740,33 @@ function ApplyModal({
                         disabled: isPending
                       }
                     ),
-                    /* @__PURE__ */ jsxs10("label", { htmlFor: "apply-privacy", className: "text-sm text-gray-600", children: [
+                    /* @__PURE__ */ jsxs11("label", { htmlFor: "apply-privacy", className: "text-sm text-gray-600", children: [
                       t("privacy_consent", locale),
                       " ",
-                      /* @__PURE__ */ jsx11("a", { href: privacyPolicyUrl, target: "_blank", rel: "noopener noreferrer", className: "text-primary hover:underline font-medium", children: t("privacy_policy", locale) }),
+                      /* @__PURE__ */ jsx12("a", { href: privacyPolicyUrl, target: "_blank", rel: "noopener noreferrer", className: "text-primary hover:underline font-medium", children: t("privacy_policy", locale) }),
                       " ",
                       t("privacy_consent_suffix", locale),
-                      /* @__PURE__ */ jsx11("span", { className: "text-red-500 ml-1", children: "*" })
+                      /* @__PURE__ */ jsx12("span", { className: "text-red-500 ml-1", children: "*" })
                     ] })
                   ] }),
-                  formState.error && /* @__PURE__ */ jsx11("div", { className: "p-3 bg-red-50 border border-red-100 rounded-xl", role: "alert", children: /* @__PURE__ */ jsx11("p", { className: "text-sm text-red-700", children: formState.error }) }),
-                  /* @__PURE__ */ jsx11(
+                  formState.error && /* @__PURE__ */ jsx12("div", { className: "p-3 bg-red-50 border border-red-100 rounded-xl", role: "alert", children: /* @__PURE__ */ jsx12("p", { className: "text-sm text-red-700", children: formState.error }) }),
+                  /* @__PURE__ */ jsx12(
                     "button",
                     {
                       type: "submit",
                       disabled: isPending || !cvFile || !privacyConsent,
                       className: "w-full rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2",
-                      children: isPending ? /* @__PURE__ */ jsxs10(Fragment4, { children: [
-                        /* @__PURE__ */ jsxs10("svg", { className: "motion-safe:animate-spin h-4 w-4", viewBox: "0 0 24 24", "aria-hidden": "true", children: [
-                          /* @__PURE__ */ jsx11("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4", fill: "none" }),
-                          /* @__PURE__ */ jsx11("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })
+                      children: isPending ? /* @__PURE__ */ jsxs11(Fragment4, { children: [
+                        /* @__PURE__ */ jsxs11("svg", { className: "motion-safe:animate-spin h-4 w-4", viewBox: "0 0 24 24", "aria-hidden": "true", children: [
+                          /* @__PURE__ */ jsx12("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4", fill: "none" }),
+                          /* @__PURE__ */ jsx12("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })
                         ] }),
                         t("submitting", locale)
                       ] }) : t("submit_application", locale)
                     }
                   )
                 ] }) }),
-                !formState.success && /* @__PURE__ */ jsx11("div", { className: "p-3 bg-gray-50 border-t border-gray-100 text-center", children: /* @__PURE__ */ jsx11("p", { className: "text-xs text-gray-500", children: t("cv_stored_securely", locale) }) })
+                !formState.success && /* @__PURE__ */ jsx12("div", { className: "p-3 bg-gray-50 border-t border-gray-100 text-center", children: /* @__PURE__ */ jsx12("p", { className: "text-xs text-gray-500", children: t("cv_stored_securely", locale) }) })
               ]
             }
           )
@@ -1764,33 +1778,33 @@ function ApplyModal({
 }
 
 // src/components/apply-button.tsx
-import { jsx as jsx12, jsxs as jsxs11 } from "react/jsx-runtime";
+import { jsx as jsx13, jsxs as jsxs12 } from "react/jsx-runtime";
 function ApplyButton({ locale, glowEffect = false, onClick, href, className = "" }) {
   const baseClass = `flex items-center justify-center w-full gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-primary/90 hover:shadow-xl ${glowEffect ? "animated-border-glow" : ""} ${className}`;
   if (href) {
-    return /* @__PURE__ */ jsxs11("a", { href, target: "_blank", rel: "noopener noreferrer", className: baseClass, children: [
+    return /* @__PURE__ */ jsxs12("a", { href, target: "_blank", rel: "noopener noreferrer", className: baseClass, children: [
       t("submit_cv", locale),
-      /* @__PURE__ */ jsx12("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx12("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" }) })
+      /* @__PURE__ */ jsx13("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx13("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" }) })
     ] });
   }
-  return /* @__PURE__ */ jsx12("button", { onClick, className: baseClass, children: t("submit_cv", locale) });
+  return /* @__PURE__ */ jsx13("button", { onClick, className: baseClass, children: t("submit_cv", locale) });
 }
 
 // src/components/empty-state.tsx
-import { jsx as jsx13, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx14, jsxs as jsxs13 } from "react/jsx-runtime";
 function EmptyState({ locale, title, message, ctaText, ctaHref }) {
-  return /* @__PURE__ */ jsx13("div", { className: "flex flex-col items-center justify-center py-16 px-6 text-center", children: /* @__PURE__ */ jsxs12("div", { className: "w-full max-w-md rounded-2xl border-2 border-dashed border-gray-200 bg-gradient-to-b from-gray-50 to-white p-10", children: [
-    /* @__PURE__ */ jsx13("div", { className: "mx-auto w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-6", children: /* @__PURE__ */ jsx13("svg", { className: "w-8 h-8 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx13("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" }) }) }),
-    /* @__PURE__ */ jsx13("h3", { className: "text-lg font-semibold text-gray-800 mb-2", children: title || t("no_jobs_title", locale) }),
-    /* @__PURE__ */ jsx13("p", { className: "text-sm text-gray-500 mb-6", children: message || t("no_jobs_message", locale) }),
-    ctaHref && /* @__PURE__ */ jsxs12(
+  return /* @__PURE__ */ jsx14("div", { className: "flex flex-col items-center justify-center py-16 px-6 text-center", children: /* @__PURE__ */ jsxs13("div", { className: "w-full max-w-md rounded-2xl border-2 border-dashed border-gray-200 bg-gradient-to-b from-gray-50 to-white p-10", children: [
+    /* @__PURE__ */ jsx14("div", { className: "mx-auto w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-6", children: /* @__PURE__ */ jsx14("svg", { className: "w-8 h-8 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx14("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" }) }) }),
+    /* @__PURE__ */ jsx14("h3", { className: "text-lg font-semibold text-gray-800 mb-2", children: title || t("no_jobs_title", locale) }),
+    /* @__PURE__ */ jsx14("p", { className: "text-sm text-gray-500 mb-6", children: message || t("no_jobs_message", locale) }),
+    ctaHref && /* @__PURE__ */ jsxs13(
       "a",
       {
         href: ctaHref,
         className: "inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/90 transition-colors",
         children: [
           ctaText || t("send_cv_cta", locale),
-          /* @__PURE__ */ jsx13("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx13("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M14 5l7 7m0 0l-7 7m7-7H3" }) })
+          /* @__PURE__ */ jsx14("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx14("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M14 5l7 7m0 0l-7 7m7-7H3" }) })
         ]
       }
     )
@@ -1798,28 +1812,28 @@ function EmptyState({ locale, title, message, ctaText, ctaHref }) {
 }
 
 // src/components/job-list-skeleton.tsx
-import { jsx as jsx14, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx15, jsxs as jsxs14 } from "react/jsx-runtime";
 function JobListSkeleton({ count = 6, columns = 3 }) {
   const gridClass = columns === 2 ? "grid grid-cols-1 md:grid-cols-2 gap-6" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
-  return /* @__PURE__ */ jsx14("div", { className: gridClass, children: Array.from({ length: count }).map((_, i) => /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsx15("div", { className: gridClass, children: Array.from({ length: count }).map((_, i) => /* @__PURE__ */ jsxs14(
     "div",
     {
       className: "h-[260px] rounded-xl border border-gray-200 bg-white p-5 animate-pulse",
       children: [
-        /* @__PURE__ */ jsxs13("div", { className: "flex items-center gap-2 mb-3", children: [
-          /* @__PURE__ */ jsx14("div", { className: "h-5 w-20 bg-gray-200 rounded-full" }),
-          /* @__PURE__ */ jsx14("div", { className: "h-4 w-14 bg-gray-100 rounded-full ml-auto" })
+        /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-2 mb-3", children: [
+          /* @__PURE__ */ jsx15("div", { className: "h-5 w-20 bg-gray-200 rounded-full" }),
+          /* @__PURE__ */ jsx15("div", { className: "h-4 w-14 bg-gray-100 rounded-full ml-auto" })
         ] }),
-        /* @__PURE__ */ jsx14("div", { className: "h-6 w-3/4 bg-gray-200 rounded mb-2" }),
-        /* @__PURE__ */ jsx14("div", { className: "h-4 w-1/2 bg-gray-100 rounded mb-3" }),
-        /* @__PURE__ */ jsxs13("div", { className: "space-y-2 mb-4", children: [
-          /* @__PURE__ */ jsx14("div", { className: "h-3 w-full bg-gray-100 rounded" }),
-          /* @__PURE__ */ jsx14("div", { className: "h-3 w-5/6 bg-gray-100 rounded" }),
-          /* @__PURE__ */ jsx14("div", { className: "h-3 w-2/3 bg-gray-100 rounded" })
+        /* @__PURE__ */ jsx15("div", { className: "h-6 w-3/4 bg-gray-200 rounded mb-2" }),
+        /* @__PURE__ */ jsx15("div", { className: "h-4 w-1/2 bg-gray-100 rounded mb-3" }),
+        /* @__PURE__ */ jsxs14("div", { className: "space-y-2 mb-4", children: [
+          /* @__PURE__ */ jsx15("div", { className: "h-3 w-full bg-gray-100 rounded" }),
+          /* @__PURE__ */ jsx15("div", { className: "h-3 w-5/6 bg-gray-100 rounded" }),
+          /* @__PURE__ */ jsx15("div", { className: "h-3 w-2/3 bg-gray-100 rounded" })
         ] }),
-        /* @__PURE__ */ jsxs13("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100", children: [
-          /* @__PURE__ */ jsx14("div", { className: "h-4 w-24 bg-gray-200 rounded" }),
-          /* @__PURE__ */ jsx14("div", { className: "h-7 w-20 bg-gray-100 rounded-full" })
+        /* @__PURE__ */ jsxs14("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100", children: [
+          /* @__PURE__ */ jsx15("div", { className: "h-4 w-24 bg-gray-200 rounded" }),
+          /* @__PURE__ */ jsx15("div", { className: "h-7 w-20 bg-gray-100 rounded-full" })
         ] })
       ]
     },
@@ -1830,7 +1844,7 @@ function JobListSkeleton({ count = 6, columns = 3 }) {
 // src/components/job-detail-header.tsx
 import { formatDistanceToNow } from "date-fns";
 import { es as esLocale } from "date-fns/locale";
-import { Fragment as Fragment5, jsx as jsx15, jsxs as jsxs14 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx16, jsxs as jsxs15 } from "react/jsx-runtime";
 function capitalizeCounty2(county) {
   if (!county) return "";
   return county.split(/[\s-]+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
@@ -1868,26 +1882,17 @@ function JobDetailHeader({ job, locale }) {
     addSuffix: true,
     locale: locale === "es" ? esLocale : void 0
   }) : null;
-  return /* @__PURE__ */ jsx15("div", { className: "rounded-2xl bg-gradient-to-br from-gray-50 via-white to-gray-50/50 border border-gray-200/80 shadow-sm p-6 md:p-8", children: /* @__PURE__ */ jsxs14("div", { className: "space-y-3", children: [
-    /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-2 flex-wrap", children: [
-      county && /* @__PURE__ */ jsxs14("span", { className: "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700", children: [
-        /* @__PURE__ */ jsxs14("svg", { className: "w-3.5 h-3.5 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
-          /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
-          /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
-        ] }),
-        county
-      ] }),
-      contractBadge && /* @__PURE__ */ jsxs14("span", { className: "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700", children: [
-        /* @__PURE__ */ jsx15("svg", { className: "w-3.5 h-3.5 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
-        contractBadge
-      ] })
+  return /* @__PURE__ */ jsx16("div", { className: "rounded-2xl bg-gradient-to-br from-gray-50 via-white to-gray-50/50 border border-gray-200/80 shadow-sm p-6 md:p-8", children: /* @__PURE__ */ jsxs15("div", { className: "space-y-3", children: [
+    /* @__PURE__ */ jsxs15("div", { className: "flex items-center gap-2 flex-wrap", children: [
+      contractBadge && /* @__PURE__ */ jsx16(JobPill, { icon: /* @__PURE__ */ jsx16(CalendarIcon, { className: "w-3.5 h-3.5" }), size: "md", children: contractBadge }),
+      county && /* @__PURE__ */ jsx16(JobPill, { icon: /* @__PURE__ */ jsx16(LocationIcon, { className: "w-3.5 h-3.5" }), size: "md", children: county })
     ] }),
-    /* @__PURE__ */ jsx15("h1", { className: "text-2xl md:text-3xl font-bold text-primary tracking-tight leading-tight", children: isConsultant && specialty ? /* @__PURE__ */ jsxs14(Fragment5, { children: [
-      /* @__PURE__ */ jsx15("span", { children: categoryLabel }),
+    /* @__PURE__ */ jsx16("h1", { className: "text-2xl md:text-3xl font-bold text-primary tracking-tight leading-tight", children: isConsultant && specialty ? /* @__PURE__ */ jsxs15(Fragment5, { children: [
+      /* @__PURE__ */ jsx16("span", { children: categoryLabel }),
       " ",
-      /* @__PURE__ */ jsx15("span", { className: "specialty-shimmer", children: specialty })
+      /* @__PURE__ */ jsx16("span", { className: "specialty-shimmer", children: specialty })
     ] }) : job.title }),
-    timeAgo && /* @__PURE__ */ jsxs14("p", { className: "text-sm text-gray-400", children: [
+    timeAgo && /* @__PURE__ */ jsxs15("p", { className: "text-sm text-gray-400", children: [
       publishedLabel,
       " ",
       timeAgo
@@ -1896,7 +1901,7 @@ function JobDetailHeader({ job, locale }) {
 }
 
 // src/components/job-detail-description.tsx
-import { jsx as jsx16, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs16 } from "react/jsx-runtime";
 function JobDetailDescription({
   job,
   locale,
@@ -1904,20 +1909,20 @@ function JobDetailDescription({
 }) {
   const descriptionLabel = locale === "es" ? "Descripci\xF3n" : "Description";
   const requirementsLabel = locale === "es" ? "Requisitos" : "Requirements";
-  return /* @__PURE__ */ jsxs15("div", { className: "space-y-8", children: [
-    (job.descriptionHtml || job.description) && /* @__PURE__ */ jsxs15("section", { children: [
-      /* @__PURE__ */ jsx16("h2", { className: "text-xl font-semibold text-gray-900 mb-4", children: descriptionLabel }),
-      job.descriptionHtml ? /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsxs16("div", { className: "space-y-8", children: [
+    (job.descriptionHtml || job.description) && /* @__PURE__ */ jsxs16("section", { children: [
+      /* @__PURE__ */ jsx17("h2", { className: "text-xl font-semibold text-gray-900 mb-4", children: descriptionLabel }),
+      job.descriptionHtml ? /* @__PURE__ */ jsx17(
         "div",
         {
           className: "prose prose-gray max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 prose-li:text-gray-600 prose-a:text-primary",
           dangerouslySetInnerHTML: { __html: job.descriptionHtml }
         }
-      ) : job.description && renderRichText ? /* @__PURE__ */ jsx16("div", { className: "prose prose-gray max-w-none", children: renderRichText(job.description) }) : null
+      ) : job.description && renderRichText ? /* @__PURE__ */ jsx17("div", { className: "prose prose-gray max-w-none", children: renderRichText(job.description) }) : null
     ] }),
-    job.requirements && /* @__PURE__ */ jsxs15("section", { children: [
-      /* @__PURE__ */ jsx16("h2", { className: "text-xl font-semibold text-gray-900 mb-4", children: requirementsLabel }),
-      /* @__PURE__ */ jsx16(
+    job.requirements && /* @__PURE__ */ jsxs16("section", { children: [
+      /* @__PURE__ */ jsx17("h2", { className: "text-xl font-semibold text-gray-900 mb-4", children: requirementsLabel }),
+      /* @__PURE__ */ jsx17(
         "div",
         {
           className: "prose prose-gray max-w-none prose-li:text-gray-600",
@@ -1929,7 +1934,7 @@ function JobDetailDescription({
 }
 
 // src/components/job-detail-sidebar.tsx
-import { jsx as jsx17, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx18, jsxs as jsxs17 } from "react/jsx-runtime";
 function JobDetailSidebar({
   job,
   locale,
@@ -1947,8 +1952,8 @@ function JobDetailSidebar({
   const durationLabel = locale === "es" ? "Duraci\xF3n" : "Duration";
   const specialtiesLabel = locale === "es" ? "Especialidades" : "Specialties";
   const hospitalLabel = locale === "es" ? "Hospital" : "Hospital";
-  return /* @__PURE__ */ jsxs16("div", { className: "sticky top-6 space-y-6", children: [
-    /* @__PURE__ */ jsx17("div", { className: `bg-white rounded-2xl border border-gray-200 shadow-lg p-6 space-y-4 ${glowEffect ? "animated-border-glow" : ""}`, children: /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsxs17("div", { className: "sticky top-6 space-y-6", children: [
+    /* @__PURE__ */ jsx18("div", { className: `bg-white rounded-2xl border border-gray-200 shadow-lg p-6 space-y-4 ${glowEffect ? "animated-border-glow" : ""}`, children: /* @__PURE__ */ jsx18(
       ApplyModal,
       {
         crmVacancyId: job.crmVacancyId || "",
@@ -1961,27 +1966,27 @@ function JobDetailSidebar({
         externalLink: job.externalLink || void 0
       }
     ) }),
-    /* @__PURE__ */ jsxs16("div", { className: "bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4", children: [
-      salaryText && /* @__PURE__ */ jsx17(DetailRow, { label: salaryLabel, value: salaryText, highlight: true }),
-      job.county && /* @__PURE__ */ jsx17(DetailRow, { label: locationLabel, value: formatCounty(job.county) }),
-      job.contractType && /* @__PURE__ */ jsx17(DetailRow, { label: contractLabel, value: getContractLabel2(job.contractType, locale) }),
-      job.contractDuration && /* @__PURE__ */ jsx17(DetailRow, { label: durationLabel, value: formatDuration(job.contractDuration, locale) }),
-      closingInfo && /* @__PURE__ */ jsx17(DetailRow, { label: closingLabel, value: closingInfo.text }),
-      job.specialties && job.specialties.length > 0 && /* @__PURE__ */ jsxs16("div", { className: "pt-3 border-t border-gray-100", children: [
-        /* @__PURE__ */ jsx17("dt", { className: "text-xs font-medium text-gray-500 uppercase tracking-wide mb-1", children: specialtiesLabel }),
-        /* @__PURE__ */ jsx17("dd", { className: "flex flex-wrap gap-1.5", children: job.specialties.map((s) => /* @__PURE__ */ jsx17("span", { className: "px-2 py-0.5 text-xs bg-violet-50 text-violet-700 rounded-full", children: s }, s)) })
+    /* @__PURE__ */ jsxs17("div", { className: "bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4", children: [
+      salaryText && /* @__PURE__ */ jsx18(DetailRow, { label: salaryLabel, value: salaryText, highlight: true }),
+      job.county && /* @__PURE__ */ jsx18(DetailRow, { label: locationLabel, value: formatCounty(job.county) }),
+      job.contractType && /* @__PURE__ */ jsx18(DetailRow, { label: contractLabel, value: getContractLabel2(job.contractType, locale) }),
+      job.contractDuration && /* @__PURE__ */ jsx18(DetailRow, { label: durationLabel, value: formatDuration(job.contractDuration, locale) }),
+      closingInfo && /* @__PURE__ */ jsx18(DetailRow, { label: closingLabel, value: closingInfo.text }),
+      job.specialties && job.specialties.length > 0 && /* @__PURE__ */ jsxs17("div", { className: "pt-3 border-t border-gray-100", children: [
+        /* @__PURE__ */ jsx18("dt", { className: "text-xs font-medium text-gray-500 uppercase tracking-wide mb-1", children: specialtiesLabel }),
+        /* @__PURE__ */ jsx18("dd", { className: "flex flex-wrap gap-1.5", children: job.specialties.map((s) => /* @__PURE__ */ jsx18("span", { className: "px-2 py-0.5 text-xs bg-violet-50 text-violet-700 rounded-full", children: s }, s)) })
       ] }),
-      job.hospitals && job.hospitals.length > 0 && /* @__PURE__ */ jsxs16("div", { className: "pt-3 border-t border-gray-100", children: [
-        /* @__PURE__ */ jsx17("dt", { className: "text-xs font-medium text-gray-500 uppercase tracking-wide mb-1", children: hospitalLabel }),
-        /* @__PURE__ */ jsx17("dd", { className: "text-sm text-gray-700", children: job.hospitals.join(", ") })
+      job.hospitals && job.hospitals.length > 0 && /* @__PURE__ */ jsxs17("div", { className: "pt-3 border-t border-gray-100", children: [
+        /* @__PURE__ */ jsx18("dt", { className: "text-xs font-medium text-gray-500 uppercase tracking-wide mb-1", children: hospitalLabel }),
+        /* @__PURE__ */ jsx18("dd", { className: "text-sm text-gray-700", children: job.hospitals.join(", ") })
       ] })
     ] })
   ] });
 }
 function DetailRow({ label, value, highlight = false }) {
-  return /* @__PURE__ */ jsxs16("div", { className: "flex items-center justify-between pt-3 first:pt-0 border-t border-gray-100 first:border-t-0", children: [
-    /* @__PURE__ */ jsx17("dt", { className: "text-xs font-medium text-gray-500 uppercase tracking-wide", children: label }),
-    /* @__PURE__ */ jsx17("dd", { className: `text-sm font-semibold ${highlight ? "text-primary" : "text-gray-900"} tabular-nums`, children: value })
+  return /* @__PURE__ */ jsxs17("div", { className: "flex items-center justify-between pt-3 first:pt-0 border-t border-gray-100 first:border-t-0", children: [
+    /* @__PURE__ */ jsx18("dt", { className: "text-xs font-medium text-gray-500 uppercase tracking-wide", children: label }),
+    /* @__PURE__ */ jsx18("dd", { className: `text-sm font-semibold ${highlight ? "text-primary" : "text-gray-900"} tabular-nums`, children: value })
   ] });
 }
 export {
@@ -1993,6 +1998,7 @@ export {
   CONTRACT_DURATIONS,
   CONTRACT_TYPES,
   CONTRACT_TYPE_TO_DURATION,
+  CalendarIcon,
   ClosingBadge,
   DEFAULT_FILTERS,
   EmptyState,
@@ -2007,6 +2013,8 @@ export {
   JobDetailSidebar,
   JobFiltersBar,
   JobListSkeleton,
+  JobPill,
+  LocationIcon,
   MEDICAL_SPECIALTIES,
   MobileFilterSheet,
   PastJobCard,

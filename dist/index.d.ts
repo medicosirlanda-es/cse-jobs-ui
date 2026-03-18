@@ -473,6 +473,20 @@ interface JobListSkeletonProps {
 }
 declare function JobListSkeleton({ count, columns }: JobListSkeletonProps): react_jsx_runtime.JSX.Element;
 
+type PillSize = 'xs' | 'sm' | 'md';
+interface JobPillProps {
+    icon?: ReactNode;
+    children: ReactNode;
+    size?: PillSize;
+}
+declare function JobPill({ icon, children, size }: JobPillProps): react_jsx_runtime.JSX.Element;
+declare function LocationIcon({ className }: {
+    className?: string;
+}): react_jsx_runtime.JSX.Element;
+declare function CalendarIcon({ className }: {
+    className?: string;
+}): react_jsx_runtime.JSX.Element;
+
 interface JobDetailHeaderProps {
     job: Job;
     locale: Locale;
@@ -496,4 +510,4 @@ interface JobDetailSidebarProps {
 }
 declare function JobDetailSidebar({ job, locale, source, crmApiUrl, privacyPolicyUrl, glowEffect, }: JobDetailSidebarProps): react_jsx_runtime.JSX.Element;
 
-export { ApplyButton, ApplyModal, CATEGORY_BADGE_COLORS, CATEGORY_COLORS, CONTRACT_COLORS, CONTRACT_DURATIONS, CONTRACT_TYPES, CONTRACT_TYPE_TO_DURATION, ClosingBadge, type ClosingDateInfo, ContractDuration, ContractType, DEFAULT_FILTERS, EmptyState, FilterChips, FilterDropdown, type FilterOption$1 as FilterOption, IRISH_COUNTIES, type IrishCounty, JOB_CATEGORIES, Job, JobCard, JobCardGrid, type JobCardProps, JobCategory, JobDetailDescription, JobDetailHeader, JobDetailSidebar, JobFiltersBar, type JobFiltersState, JobListItem, JobListSkeleton, Locale, MEDICAL_SPECIALTIES, type MedicalSpecialty, MobileFilterSheet, PastJobCard, PastOffersSection, SORT_OPTIONS, Salary, SiteSlug, SortDropdown, SortOption, filterAndSortJobs, filterJobs, formatCounty, formatDuration, formatSalary, formatSpecialty, getCategoryLabel, getClosedDate, getClosingDateInfo, getContractLabel$1 as getContractDurationLabel, getContractLabel, getSortLabel, parseConsultantTitle, sortJobs, t, truncateSummary };
+export { ApplyButton, ApplyModal, CATEGORY_BADGE_COLORS, CATEGORY_COLORS, CONTRACT_COLORS, CONTRACT_DURATIONS, CONTRACT_TYPES, CONTRACT_TYPE_TO_DURATION, CalendarIcon, ClosingBadge, type ClosingDateInfo, ContractDuration, ContractType, DEFAULT_FILTERS, EmptyState, FilterChips, FilterDropdown, type FilterOption$1 as FilterOption, IRISH_COUNTIES, type IrishCounty, JOB_CATEGORIES, Job, JobCard, JobCardGrid, type JobCardProps, JobCategory, JobDetailDescription, JobDetailHeader, JobDetailSidebar, JobFiltersBar, type JobFiltersState, JobListItem, JobListSkeleton, JobPill, Locale, LocationIcon, MEDICAL_SPECIALTIES, type MedicalSpecialty, MobileFilterSheet, PastJobCard, PastOffersSection, SORT_OPTIONS, Salary, SiteSlug, SortDropdown, SortOption, filterAndSortJobs, filterJobs, formatCounty, formatDuration, formatSalary, formatSpecialty, getCategoryLabel, getClosedDate, getClosingDateInfo, getContractLabel$1 as getContractDurationLabel, getContractLabel, getSortLabel, parseConsultantTitle, sortJobs, t, truncateSummary };

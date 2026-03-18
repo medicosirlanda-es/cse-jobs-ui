@@ -2,8 +2,9 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 import type { JobListItem, Locale } from '../types'
 import { formatSalary, parseConsultantTitle, truncateSummary } from '../utils/format'
-import { getCategoryLabel, CATEGORY_COLORS } from '../constants/categories'
+import { getCategoryLabel } from '../constants/categories'
 import { ClosingBadge } from './closing-badge'
+import { JobPill, LocationIcon, CalendarIcon } from './job-pill'
 import { t } from '../utils/i18n'
 
 export interface JobCardProps {
@@ -38,7 +39,6 @@ function getContractBadge(job: JobListItem, locale: Locale): string | null {
     : job.contractType === 'maternity' ? (locale === 'es' ? 'Cobertura' : 'Maternity')
     : (locale === 'es' ? 'Temporal' : 'Fixed Term')
 
-  // Try to extract months from title (e.g., "6mo" or "12mo")
   const monthMatch = job.title.match(/(\d+)\s*mo(?:nths?)?/i)
   if (monthMatch) {
     const months = parseInt(monthMatch[1], 10)
@@ -68,11 +68,9 @@ export function JobCard({
   const categoryLabel = getCategoryLabel(job.category, locale)
   const specialty = parsed?.specialty || null
 
-  // County from job.county field (NOT from title — title may contain hospital name)
   const county = job.county ? formatCounty(job.county) : null
   const contractBadge = getContractBadge(job, locale)
 
-  // Description: truncated to ~2 lines
   const summary = job.descriptionSummary ? truncateSummary(job.descriptionSummary, 120) : null
 
   const card = (
@@ -82,28 +80,21 @@ export function JobCard({
     >
       <article className="job-card-hover flex flex-col h-full bg-white rounded-xl border border-gray-200 job-card-border shadow-sm overflow-hidden">
         <div className="p-5 flex flex-col flex-grow">
-          {/* Row 1: Badges — County + Duration + Closing Date */}
-          <div className="flex items-center gap-2 flex-wrap mb-3">
-            {county && (
-              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium bg-gray-100 text-gray-600">
-                <svg className="w-3 h-3 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                {county}
-              </span>
-            )}
-            {contractBadge && (
-              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium bg-gray-100 text-gray-600">
-                <svg className="w-3 h-3 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                {contractBadge}
-              </span>
-            )}
+          {/* Row 1: Term (left) ← → County (right) */}
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <div>
+              {contractBadge && (
+                <JobPill icon={<CalendarIcon />}>{contractBadge}</JobPill>
+              )}
+            </div>
+            <div>
+              {county && (
+                <JobPill icon={<LocationIcon />}>{county}</JobPill>
+              )}
+            </div>
           </div>
 
-          {/* Row 2: Title — "Category Specialty" with shimmer on specialty */}
+          {/* Row 2: Title with shimmer on specialty */}
           <h3 className="text-lg font-bold text-primary transition-colors duration-300 group-hover:text-primary/80 mb-1">
             {isConsultant && specialty ? (
               <>
@@ -115,7 +106,7 @@ export function JobCard({
             )}
           </h3>
 
-          {/* Row 3: Description — truncated 2 lines */}
+          {/* Row 3: Description */}
           {summary && (
             <p className="text-sm text-gray-500 line-clamp-2 mb-2">
               {summary}
@@ -125,7 +116,7 @@ export function JobCard({
           {/* Spacer */}
           <div className="flex-grow" />
 
-          {/* Row 4: Footer — Closing date + Salary + CTA */}
+          {/* Row 4: Footer — Closing + Salary + CTA */}
           <div className="flex items-center gap-3 pt-3 border-t border-gray-100 mt-2">
             <ClosingBadge closingDate={job.closingDate} locale={locale} />
             {salaryText && (

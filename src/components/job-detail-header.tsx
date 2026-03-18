@@ -1,6 +1,7 @@
 import type { Job, Locale } from '../types'
 import { getCategoryLabel } from '../constants/categories'
 import { parseConsultantTitle } from '../utils/format'
+import { JobPill, LocationIcon, CalendarIcon } from './job-pill'
 import { formatDistanceToNow } from 'date-fns'
 import { es as esLocale } from 'date-fns/locale'
 
@@ -68,24 +69,13 @@ export function JobDetailHeader({ job, locale }: JobDetailHeaderProps) {
   return (
     <div className="rounded-2xl bg-gradient-to-br from-gray-50 via-white to-gray-50/50 border border-gray-200/80 shadow-sm p-6 md:p-8">
       <div className="space-y-3">
-        {/* Row 1: Location + Contract */}
+        {/* Row 1: Pills */}
         <div className="flex items-center gap-2 flex-wrap">
-          {county && (
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700">
-              <svg className="w-3.5 h-3.5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              {county}
-            </span>
-          )}
           {contractBadge && (
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700">
-              <svg className="w-3.5 h-3.5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              {contractBadge}
-            </span>
+            <JobPill icon={<CalendarIcon className="w-3.5 h-3.5" />} size="md">{contractBadge}</JobPill>
+          )}
+          {county && (
+            <JobPill icon={<LocationIcon className="w-3.5 h-3.5" />} size="md">{county}</JobPill>
           )}
         </div>
 
