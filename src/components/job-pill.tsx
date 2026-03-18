@@ -9,15 +9,21 @@ interface JobPillProps {
 }
 
 const SIZE_CLASSES: Record<PillSize, string> = {
-  xs: 'px-2 py-0.5 text-[10px] gap-1',
-  sm: 'px-2.5 py-1 text-[11px] gap-1',
-  md: 'px-3 py-1.5 text-xs gap-1.5',
+  xs: 'text-[10px] gap-1',
+  sm: 'text-xs gap-1.5',
+  md: 'text-sm gap-1.5',
+}
+
+const ICON_SIZES: Record<PillSize, string> = {
+  xs: 'w-2.5 h-2.5',
+  sm: 'w-3 h-3',
+  md: 'w-3.5 h-3.5',
 }
 
 export function JobPill({ icon, children, size = 'sm' }: JobPillProps) {
   return (
-    <span className={`inline-flex items-center font-medium rounded-full bg-primary/8 text-primary/90 ${SIZE_CLASSES[size]}`}>
-      {icon && <span className="shrink-0 text-primary/50">{icon}</span>}
+    <span className={`inline-flex items-center font-medium text-gray-500 ${SIZE_CLASSES[size]}`}>
+      {icon && <span className="shrink-0 text-gray-400">{icon}</span>}
       {children}
     </span>
   )

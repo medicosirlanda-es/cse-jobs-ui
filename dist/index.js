@@ -486,13 +486,13 @@ function ClosingBadge({ closingDate, locale = "en", variant = "inline" }) {
 // src/components/job-pill.tsx
 import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 var SIZE_CLASSES = {
-  xs: "px-2 py-0.5 text-[10px] gap-1",
-  sm: "px-2.5 py-1 text-[11px] gap-1",
-  md: "px-3 py-1.5 text-xs gap-1.5"
+  xs: "text-[10px] gap-1",
+  sm: "text-xs gap-1.5",
+  md: "text-sm gap-1.5"
 };
 function JobPill({ icon, children, size = "sm" }) {
-  return /* @__PURE__ */ jsxs2("span", { className: `inline-flex items-center font-medium rounded-full bg-primary/8 text-primary/90 ${SIZE_CLASSES[size]}`, children: [
-    icon && /* @__PURE__ */ jsx2("span", { className: "shrink-0 text-primary/50", children: icon }),
+  return /* @__PURE__ */ jsxs2("span", { className: `inline-flex items-center font-medium text-gray-500 ${SIZE_CLASSES[size]}`, children: [
+    icon && /* @__PURE__ */ jsx2("span", { className: "shrink-0 text-gray-400", children: icon }),
     children
   ] });
 }
