@@ -11,10 +11,10 @@
   border-color: var(--color-primary, #2d64b0);
 }
 
-/* Specialty shimmer sweep on job cards */
+/* Specialty shimmer — subtle, one sweep every ~8s with long pause */
 @keyframes shimmer-sweep {
-  0%, 100% { background-position: 200% 0; }
-  50% { background-position: -200% 0; }
+  0%, 80%, 100% { background-position: 200% 0; }
+  40% { background-position: -200% 0; }
 }
 
 .specialty-shimmer {
@@ -22,7 +22,7 @@
     90deg,
     currentColor 0%,
     currentColor 40%,
-    rgba(109, 176, 255, 0.8) 50%,
+    rgba(109, 176, 255, 0.7) 50%,
     currentColor 60%,
     currentColor 100%
   );
@@ -30,7 +30,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer-sweep 4s ease-in-out infinite;
+  animation: shimmer-sweep 8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

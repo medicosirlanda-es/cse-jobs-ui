@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import type { JobListItem, Locale } from '../types'
-import { formatSalary, parseConsultantTitle, getContractLabel } from '../utils/format'
-import { getCategoryLabel, CATEGORY_BADGE_COLORS, CATEGORY_COLORS } from '../constants/categories'
-import { CONTRACT_COLORS } from '../constants/contracts'
+import { formatSalary, parseConsultantTitle, truncateSummary } from '../utils/format'
+import { getCategoryLabel, CATEGORY_COLORS } from '../constants/categories'
 import { ClosingBadge } from './closing-badge'
 import { t } from '../utils/i18n'
 
@@ -45,8 +44,6 @@ export function JobCard({
   const isConsultant = job.category === 'consultant' || job.category === 'registrar-sho'
   const parsed = isConsultant ? parseConsultantTitle(job.title) : null
 
-  // For consultant: "Consultant" + specialty with shimmer
-  // For others: category label as title
   const categoryLabel = getCategoryLabel(job.category, locale)
   const specialty = parsed?.specialty || null
 
@@ -54,6 +51,9 @@ export function JobCard({
   const county = job.county ? formatCounty(job.county) : null
   const duration = formatDuration(job.contractType, locale)
   const colors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other
+
+  // Description: truncated to ~2 lines
+  const summary = job.descriptionSummary ? truncateSummary(job.descriptionSummary, 120) : null
 
   const card = (
     <Link
@@ -87,40 +87,41 @@ export function JobCard({
           </div>
 
           {/* Row 2: Title — "Category Specialty" with shimmer on specialty */}
-          <div className="flex items-start justify-between gap-3 mb-2">
-            <h3 className="text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-primary md:text-xl">
-              {isConsultant && specialty ? (
-                <>
-                  <span>{categoryLabel}</span>{' '}
-                  <span className="specialty-shimmer">{specialty}</span>
-                </>
-              ) : (
-                <span>{job.title}</span>
-              )}
-            </h3>
-            <svg
-              aria-hidden="true"
-              className="mt-1.5 h-4 w-4 shrink-0 text-gray-400 transition-all duration-200 group-hover:translate-x-1 group-hover:text-primary"
-              fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </div>
+          <h3 className="text-lg font-bold text-primary transition-colors duration-300 group-hover:text-primary/80 mb-1">
+            {isConsultant && specialty ? (
+              <>
+                <span>{categoryLabel}</span>{' '}
+                <span className="specialty-shimmer">{specialty}</span>
+              </>
+            ) : (
+              <span>{job.title}</span>
+            )}
+          </h3>
+
+          {/* Row 3: Description — truncated 2 lines */}
+          {summary && (
+            <p className="text-sm text-gray-500 line-clamp-2 mb-2">
+              {summary}
+            </p>
+          )}
 
           {/* Spacer */}
           <div className="flex-grow" />
 
-          {/* Row 3: Footer — Salary + CTA */}
-          {salaryText && (
-            <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-3">
+          {/* Row 4: Footer — Salary + CTA */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-2">
+            {salaryText && (
               <span className="text-sm font-semibold text-primary tabular-nums">
                 {salaryText}
               </span>
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200">
-                {t('view_offer', locale)}
-              </span>
-            </div>
-          )}
+            )}
+            <span className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 ml-auto">
+              {t('view_offer', locale)}
+              <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
         </div>
       </article>
     </Link>

@@ -491,6 +491,7 @@ function JobCard({
   const county = job.county ? formatCounty2(job.county) : null;
   const duration = formatDuration2(job.contractType, locale);
   const colors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other;
+  const summary = job.descriptionSummary ? truncateSummary(job.descriptionSummary, 120) : null;
   const card = /* @__PURE__ */ jsx2(
     Link,
     {
@@ -511,28 +512,19 @@ function JobCard({
           ] }),
           /* @__PURE__ */ jsx2("div", { className: "ml-auto", children: /* @__PURE__ */ jsx2(ClosingBadge, { closingDate: job.closingDate, locale }) })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { className: "flex items-start justify-between gap-3 mb-2", children: [
-          /* @__PURE__ */ jsx2("h3", { className: "text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-primary md:text-xl", children: isConsultant && specialty ? /* @__PURE__ */ jsxs2(Fragment, { children: [
-            /* @__PURE__ */ jsx2("span", { children: categoryLabel }),
-            " ",
-            /* @__PURE__ */ jsx2("span", { className: "specialty-shimmer", children: specialty })
-          ] }) : /* @__PURE__ */ jsx2("span", { children: job.title }) }),
-          /* @__PURE__ */ jsx2(
-            "svg",
-            {
-              "aria-hidden": "true",
-              className: "mt-1.5 h-4 w-4 shrink-0 text-gray-400 transition-all duration-200 group-hover:translate-x-1 group-hover:text-primary",
-              fill: "none",
-              viewBox: "0 0 24 24",
-              stroke: "currentColor",
-              children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M14 5l7 7m0 0l-7 7m7-7H3" })
-            }
-          )
-        ] }),
+        /* @__PURE__ */ jsx2("h3", { className: "text-lg font-bold text-primary transition-colors duration-300 group-hover:text-primary/80 mb-1", children: isConsultant && specialty ? /* @__PURE__ */ jsxs2(Fragment, { children: [
+          /* @__PURE__ */ jsx2("span", { children: categoryLabel }),
+          " ",
+          /* @__PURE__ */ jsx2("span", { className: "specialty-shimmer", children: specialty })
+        ] }) : /* @__PURE__ */ jsx2("span", { children: job.title }) }),
+        summary && /* @__PURE__ */ jsx2("p", { className: "text-sm text-gray-500 line-clamp-2 mb-2", children: summary }),
         /* @__PURE__ */ jsx2("div", { className: "flex-grow" }),
-        salaryText && /* @__PURE__ */ jsxs2("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100 mt-3", children: [
-          /* @__PURE__ */ jsx2("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
-          /* @__PURE__ */ jsx2("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200", children: t("view_offer", locale) })
+        /* @__PURE__ */ jsxs2("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100 mt-2", children: [
+          salaryText && /* @__PURE__ */ jsx2("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
+          /* @__PURE__ */ jsxs2("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 ml-auto", children: [
+            t("view_offer", locale),
+            /* @__PURE__ */ jsx2("svg", { className: "w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) })
+          ] })
         ] })
       ] }) })
     }
@@ -1801,29 +1793,57 @@ function JobListSkeleton({ count = 6, columns = 3 }) {
 }
 
 // src/components/job-detail-header.tsx
-import { format as format2 } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import { es as esLocale2 } from "date-fns/locale";
-import { jsx as jsx15, jsxs as jsxs14 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx15, jsxs as jsxs14 } from "react/jsx-runtime";
+function formatCounty3(county) {
+  if (!county) return "";
+  if (county.startsWith("Co.")) return county;
+  return `Co. ${county.charAt(0).toUpperCase()}${county.slice(1)}`;
+}
+function formatDuration3(contractType, locale = "en") {
+  if (!contractType) return null;
+  const labels = {
+    permanent: { en: "Permanent", es: "Permanente" },
+    "fixed-term": { en: "Fixed Term", es: "Temporal" },
+    locum: { en: "Locum", es: "Locum" },
+    maternity: { en: "Maternity Cover", es: "Cobertura" }
+  };
+  return labels[contractType]?.[locale] ?? contractType;
+}
 function JobDetailHeader({ job, locale }) {
-  const publishedDate = job.publishedAt ? format2(new Date(job.publishedAt), "d MMMM yyyy", { locale: locale === "es" ? esLocale2 : void 0 }) : null;
-  return /* @__PURE__ */ jsxs14("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-2 flex-wrap", children: [
-      /* @__PURE__ */ jsx15("span", { className: `px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded-full ${CATEGORY_BADGE_COLORS[job.category]}`, children: getCategoryLabel(job.category, locale) }),
-      job.contractType && /* @__PURE__ */ jsx15("span", { className: `px-3 py-1 text-xs font-medium rounded-full ${CONTRACT_COLORS[job.contractType]}`, children: getContractLabel2(job.contractType, locale) }),
-      /* @__PURE__ */ jsx15(ClosingBadge, { closingDate: job.closingDate, locale })
-    ] }),
-    /* @__PURE__ */ jsx15("h1", { className: "text-2xl md:text-3xl font-bold text-gray-900 tracking-tight", children: job.title }),
-    /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-4 text-sm text-gray-500 flex-wrap", children: [
-      job.county && /* @__PURE__ */ jsxs14("span", { className: "flex items-center gap-1.5", children: [
-        /* @__PURE__ */ jsxs14("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
+  const isConsultant = job.category === "consultant" || job.category === "registrar-sho";
+  const parsed = isConsultant ? parseConsultantTitle(job.title) : null;
+  const categoryLabel = getCategoryLabel(job.category, locale);
+  const specialty = parsed?.specialty || null;
+  const colors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other;
+  const county = job.county ? formatCounty3(job.county) : null;
+  const duration = formatDuration3(job.contractType, locale);
+  const publishedLabel = locale === "es" ? "Publicado" : "Published";
+  const timeAgo = job.publishedAt ? formatDistanceToNow(new Date(job.publishedAt), {
+    addSuffix: true,
+    locale: locale === "es" ? esLocale2 : void 0
+  }) : null;
+  return /* @__PURE__ */ jsxs14("div", { className: "relative rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-gray-200 p-6 md:p-8", children: [
+    job.closingDate && /* @__PURE__ */ jsx15("div", { className: "absolute top-4 right-4 md:top-6 md:right-6", children: /* @__PURE__ */ jsx15(ClosingBadge, { closingDate: job.closingDate, locale }) }),
+    /* @__PURE__ */ jsxs14("div", { className: "space-y-4 max-w-2xl", children: [
+      county && /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-1.5 text-sm text-gray-500", children: [
+        /* @__PURE__ */ jsxs14("svg", { className: "w-4 h-4 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
           /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
           /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
         ] }),
-        job.county
+        county
       ] }),
-      publishedDate && /* @__PURE__ */ jsxs14("span", { className: "flex items-center gap-1.5", children: [
-        /* @__PURE__ */ jsx15("svg", { className: "w-4 h-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
-        publishedDate
+      duration && /* @__PURE__ */ jsx15("span", { className: `inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${colors.bg} ${colors.text}`, children: duration }),
+      /* @__PURE__ */ jsx15("h1", { className: "text-2xl md:text-3xl font-bold text-primary tracking-tight", children: isConsultant && specialty ? /* @__PURE__ */ jsxs14(Fragment5, { children: [
+        /* @__PURE__ */ jsx15("span", { children: categoryLabel }),
+        " ",
+        /* @__PURE__ */ jsx15("span", { className: "specialty-shimmer", children: specialty })
+      ] }) : job.title }),
+      timeAgo && /* @__PURE__ */ jsxs14("p", { className: "text-sm text-gray-400", children: [
+        publishedLabel,
+        " ",
+        timeAgo
       ] })
     ] })
   ] });
