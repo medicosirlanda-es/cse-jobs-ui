@@ -44,8 +44,8 @@
 
 /* ─── Specialty shimmer — one sweep every ~8s ─── */
 @keyframes shimmer-sweep {
-  0%, 80%, 100% { background-position: 200% 0; }
-  40% { background-position: -200% 0; }
+  0%, 85%, 100% { background-position: 200% 0; }
+  35% { background-position: -200% 0; }
 }
 
 .specialty-shimmer {
@@ -61,7 +61,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer-sweep 8s ease-in-out infinite;
+  animation: shimmer-sweep 14s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
