@@ -8,6 +8,9 @@ import {
   JOB_CATEGORIES,
   getCategoryLabel
 } from "./chunk-WGB7TBXP.js";
+import {
+  __require
+} from "./chunk-7QHK2FRA.js";
 
 // src/constants/counties.ts
 var IRISH_COUNTIES = [
@@ -212,8 +215,7 @@ function truncateSummary(text, maxLength = 300) {
 }
 
 // src/utils/closing-date.ts
-import { isValid, isFuture, differenceInDays, format } from "date-fns";
-import { es as esLocale } from "date-fns/locale";
+import { isValid, isFuture, differenceInDays } from "date-fns";
 function getClosingDateInfo(closingDate, locale = "en") {
   if (!closingDate) return null;
   const date = new Date(closingDate);
@@ -228,38 +230,49 @@ function getClosingDateInfo(closingDate, locale = "en") {
     };
   }
   const daysLeft = differenceInDays(date, /* @__PURE__ */ new Date());
+  const prefix = locale === "es" ? "Cierra en" : "Closes in";
+  const dayWord = (n) => {
+    if (locale === "es") return n === 1 ? "d\xEDa" : "d\xEDas";
+    return n === 1 ? "day" : "days";
+  };
   if (daysLeft === 0) {
     return {
-      text: locale === "es" ? "\xA1Hoy!" : "Today!",
+      text: locale === "es" ? "Cierra hoy" : "Closes today",
       daysLeft: 0,
       urgent: true,
       color: "red",
       pulse: true
     };
   }
-  if (daysLeft === 1) {
+  if (daysLeft <= 3) {
     return {
-      text: locale === "es" ? "\xA11 d\xEDa!" : "1 day!",
-      daysLeft: 1,
+      text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+      daysLeft,
       urgent: true,
       color: "red",
       pulse: true
     };
   }
-  if (daysLeft <= 3) {
-    const text = locale === "es" ? `\xA1${daysLeft} d\xEDas!` : `${daysLeft} days!`;
-    return { text, daysLeft, urgent: true, color: "red", pulse: true };
-  }
   if (daysLeft <= 7) {
-    const text = locale === "es" ? `${daysLeft} d\xEDas` : `${daysLeft} days`;
-    return { text, daysLeft, urgent: true, color: "amber", pulse: false };
+    return {
+      text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+      daysLeft,
+      urgent: true,
+      color: "amber",
+      pulse: false
+    };
   }
-  if (daysLeft <= 14) {
-    const text = format(date, "d MMM", { locale: locale === "es" ? esLocale : void 0 });
-    return { text, daysLeft, urgent: false, color: "amber", pulse: false };
+  if (daysLeft <= 30) {
+    return {
+      text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+      daysLeft,
+      urgent: false,
+      color: "emerald",
+      pulse: false
+    };
   }
   return {
-    text: format(date, "d MMM", { locale: locale === "es" ? esLocale : void 0 }),
+    text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
     daysLeft,
     urgent: false,
     color: "emerald",
@@ -270,7 +283,9 @@ function getClosedDate(closingDate, locale = "en") {
   if (!closingDate) return null;
   const date = new Date(closingDate);
   if (!isValid(date)) return null;
-  return format(date, "MMM ''yy", { locale: locale === "es" ? esLocale : void 0 });
+  const { format } = __require("date-fns");
+  const { es: esLocale2 } = __require("date-fns/locale");
+  return format(date, "MMM ''yy", { locale: locale === "es" ? esLocale2 : void 0 });
 }
 
 // src/utils/filter.ts
@@ -443,16 +458,29 @@ import Link from "next/link";
 
 // src/components/closing-badge.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
-var COLOR_CLASSES = {
+var INLINE_COLORS = {
   red: "text-red-600",
   amber: "text-amber-600",
   emerald: "text-emerald-600",
   gray: "text-gray-500"
 };
-function ClosingBadge({ closingDate, locale = "en" }) {
+var PILL_COLORS = {
+  red: "bg-red-50 text-red-700 border-red-200",
+  amber: "bg-amber-50 text-amber-700 border-amber-200",
+  emerald: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  gray: "bg-gray-100 text-gray-600 border-gray-200"
+};
+function ClosingBadge({ closingDate, locale = "en", variant = "inline" }) {
   const info = getClosingDateInfo(closingDate, locale);
   if (!info) return null;
-  return /* @__PURE__ */ jsxs("span", { className: `text-xs font-medium whitespace-nowrap ${COLOR_CLASSES[info.color]}`, children: [
+  if (variant === "pill") {
+    return /* @__PURE__ */ jsxs("span", { className: `inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium border ${PILL_COLORS[info.color]}`, children: [
+      info.pulse && /* @__PURE__ */ jsx("span", { className: "w-1.5 h-1.5 bg-red-500 rounded-full motion-safe:animate-pulse" }),
+      /* @__PURE__ */ jsx("svg", { className: "w-3.5 h-3.5 shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" }) }),
+      info.text
+    ] });
+  }
+  return /* @__PURE__ */ jsxs("span", { className: `text-xs font-medium whitespace-nowrap ${INLINE_COLORS[info.color]}`, children: [
     info.pulse && /* @__PURE__ */ jsx("span", { className: "inline-block w-1.5 h-1.5 bg-red-500 rounded-full mr-1 motion-safe:animate-pulse" }),
     info.text
   ] });
@@ -1794,7 +1822,7 @@ function JobListSkeleton({ count = 6, columns = 3 }) {
 
 // src/components/job-detail-header.tsx
 import { formatDistanceToNow } from "date-fns";
-import { es as esLocale2 } from "date-fns/locale";
+import { es as esLocale } from "date-fns/locale";
 import { Fragment as Fragment5, jsx as jsx15, jsxs as jsxs14 } from "react/jsx-runtime";
 function formatCounty3(county) {
   if (!county) return "";
@@ -1822,20 +1850,25 @@ function JobDetailHeader({ job, locale }) {
   const publishedLabel = locale === "es" ? "Publicado" : "Published";
   const timeAgo = job.publishedAt ? formatDistanceToNow(new Date(job.publishedAt), {
     addSuffix: true,
-    locale: locale === "es" ? esLocale2 : void 0
+    locale: locale === "es" ? esLocale : void 0
   }) : null;
-  return /* @__PURE__ */ jsxs14("div", { className: "relative rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-gray-200 p-6 md:p-8", children: [
-    job.closingDate && /* @__PURE__ */ jsx15("div", { className: "absolute top-4 right-4 md:top-6 md:right-6", children: /* @__PURE__ */ jsx15(ClosingBadge, { closingDate: job.closingDate, locale }) }),
-    /* @__PURE__ */ jsxs14("div", { className: "space-y-4 max-w-2xl", children: [
-      county && /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-1.5 text-sm text-gray-500", children: [
-        /* @__PURE__ */ jsxs14("svg", { className: "w-4 h-4 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
-          /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
-          /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
+  return /* @__PURE__ */ jsxs14("div", { className: "relative rounded-2xl bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-gray-200/80 shadow-sm p-6 md:p-8", children: [
+    job.closingDate && /* @__PURE__ */ jsx15("div", { className: "absolute top-4 right-4 md:top-6 md:right-6", children: /* @__PURE__ */ jsx15(ClosingBadge, { closingDate: job.closingDate, locale, variant: "pill" }) }),
+    /* @__PURE__ */ jsxs14("div", { className: "space-y-3 pr-32 md:pr-40", children: [
+      /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-2 flex-wrap", children: [
+        county && /* @__PURE__ */ jsxs14("span", { className: `inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${colors.bg} ${colors.text}`, children: [
+          /* @__PURE__ */ jsxs14("svg", { className: "w-3.5 h-3.5 shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
+            /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
+            /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
+          ] }),
+          county
         ] }),
-        county
+        duration && /* @__PURE__ */ jsxs14("span", { className: `inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${colors.bg} ${colors.text}`, children: [
+          /* @__PURE__ */ jsx15("svg", { className: "w-3.5 h-3.5 shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
+          duration
+        ] })
       ] }),
-      duration && /* @__PURE__ */ jsx15("span", { className: `inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${colors.bg} ${colors.text}`, children: duration }),
-      /* @__PURE__ */ jsx15("h1", { className: "text-2xl md:text-3xl font-bold text-primary tracking-tight", children: isConsultant && specialty ? /* @__PURE__ */ jsxs14(Fragment5, { children: [
+      /* @__PURE__ */ jsx15("h1", { className: "text-2xl md:text-3xl font-bold text-primary tracking-tight leading-tight", children: isConsultant && specialty ? /* @__PURE__ */ jsxs14(Fragment5, { children: [
         /* @__PURE__ */ jsx15("span", { children: categoryLabel }),
         " ",
         /* @__PURE__ */ jsx15("span", { className: "specialty-shimmer", children: specialty })

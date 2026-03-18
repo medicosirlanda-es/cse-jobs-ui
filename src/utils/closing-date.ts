@@ -1,5 +1,4 @@
-import { isValid, isFuture, differenceInDays, format } from 'date-fns'
-import { es as esLocale } from 'date-fns/locale'
+import { isValid, isFuture, differenceInDays } from 'date-fns'
 import type { Locale } from '../types'
 
 export interface ClosingDateInfo {
@@ -30,10 +29,15 @@ export function getClosingDateInfo(
   }
 
   const daysLeft = differenceInDays(date, new Date())
+  const prefix = locale === 'es' ? 'Cierra en' : 'Closes in'
+  const dayWord = (n: number) => {
+    if (locale === 'es') return n === 1 ? 'día' : 'días'
+    return n === 1 ? 'day' : 'days'
+  }
 
   if (daysLeft === 0) {
     return {
-      text: locale === 'es' ? '¡Hoy!' : 'Today!',
+      text: locale === 'es' ? 'Cierra hoy' : 'Closes today',
       daysLeft: 0,
       urgent: true,
       color: 'red',
@@ -41,33 +45,38 @@ export function getClosingDateInfo(
     }
   }
 
-  if (daysLeft === 1) {
+  if (daysLeft <= 3) {
     return {
-      text: locale === 'es' ? '¡1 día!' : '1 day!',
-      daysLeft: 1,
+      text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+      daysLeft,
       urgent: true,
       color: 'red',
       pulse: true,
     }
   }
 
-  if (daysLeft <= 3) {
-    const text = locale === 'es' ? `¡${daysLeft} días!` : `${daysLeft} days!`
-    return { text, daysLeft, urgent: true, color: 'red', pulse: true }
-  }
-
   if (daysLeft <= 7) {
-    const text = locale === 'es' ? `${daysLeft} días` : `${daysLeft} days`
-    return { text, daysLeft, urgent: true, color: 'amber', pulse: false }
+    return {
+      text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+      daysLeft,
+      urgent: true,
+      color: 'amber',
+      pulse: false,
+    }
   }
 
-  if (daysLeft <= 14) {
-    const text = format(date, 'd MMM', { locale: locale === 'es' ? esLocale : undefined })
-    return { text, daysLeft, urgent: false, color: 'amber', pulse: false }
+  if (daysLeft <= 30) {
+    return {
+      text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+      daysLeft,
+      urgent: false,
+      color: 'emerald',
+      pulse: false,
+    }
   }
 
   return {
-    text: format(date, 'd MMM', { locale: locale === 'es' ? esLocale : undefined }),
+    text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
     daysLeft,
     urgent: false,
     color: 'emerald',
@@ -81,5 +90,7 @@ export function getClosedDate(closingDate?: string | null, locale: Locale = 'en'
   const date = new Date(closingDate)
   if (!isValid(date)) return null
 
+  const { format } = require('date-fns')
+  const { es: esLocale } = require('date-fns/locale')
   return format(date, "MMM ''yy", { locale: locale === 'es' ? esLocale : undefined })
 }

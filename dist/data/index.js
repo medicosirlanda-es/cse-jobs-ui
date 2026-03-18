@@ -1,4 +1,5 @@
 'use client';
+import "../chunk-7QHK2FRA.js";
 
 // src/data/payload-client.ts
 function toJobListItem(p) {
