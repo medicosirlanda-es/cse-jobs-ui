@@ -1,0 +1,91 @@
+import type { Locale } from '../types'
+
+const STRINGS: Record<string, Record<Locale, string>> = {
+  'view_offer': { en: 'View', es: 'Ver oferta' },
+  'view': { en: 'View', es: 'Ver' },
+  'closed': { en: 'Closed', es: 'Cerrada' },
+  'past_offers': { en: 'Past Offers', es: 'Ofertas pasadas' },
+  'past_offers_count_one': { en: 'closed offer', es: 'oferta cerrada' },
+  'past_offers_count_other': { en: 'closed offers', es: 'ofertas cerradas' },
+  'past_offers_note': {
+    en: 'These offers are no longer accepting applications, but you can view the details for reference.',
+    es: 'Estas ofertas ya no aceptan candidaturas, pero puedes ver los detalles para referencia.',
+  },
+  'no_results': { en: 'No results found', es: 'No se encontraron resultados' },
+  'clear_selection': { en: 'Clear selection', es: 'Limpiar selección' },
+  'clear_all': { en: 'Clear all', es: 'Limpiar todo' },
+  'clear': { en: 'Clear', es: 'Limpiar' },
+  'apply_filters': { en: 'Apply filters', es: 'Aplicar filtros' },
+  'filters': { en: 'Filters', es: 'Filtros' },
+  'more': { en: 'more', es: 'más' },
+  'sort_by': { en: 'Sort:', es: 'Ordenar:' },
+  'select': { en: 'Select', es: 'Seleccionar' },
+  'category': { en: 'Category', es: 'Categoría' },
+  'specialty': { en: 'Specialty', es: 'Especialidad' },
+  'county': { en: 'County', es: 'Condado' },
+  'duration': { en: 'Duration', es: 'Duración' },
+  'search': { en: 'Search...', es: 'Buscar...' },
+  'search_specialty': { en: 'Search specialty...', es: 'Buscar especialidad...' },
+  'search_county': { en: 'Search county...', es: 'Buscar condado...' },
+  'sort_by_label': { en: 'Sort by', es: 'Ordenar por' },
+  'remove_filter': { en: 'Remove filter:', es: 'Eliminar filtro:' },
+  'active_filters': { en: 'active filters', es: 'filtros activos' },
+  'no_active_filters': { en: 'No active filters', es: 'Sin filtros activos' },
+  'close_filter_panel': { en: 'Close filter panel', es: 'Cerrar panel de filtros' },
+  'close_filters': { en: 'Close filters', es: 'Cerrar filtros' },
+  'close': { en: 'Close', es: 'Cerrar' },
+  // Apply modal
+  'apply_to_offer': { en: 'Apply to this offer', es: 'Aplicar a esta oferta' },
+  'name': { en: 'Name', es: 'Nombre' },
+  'name_placeholder': { en: 'Your name...', es: 'Tu nombre…' },
+  'email': { en: 'Email', es: 'Email' },
+  'email_placeholder': { en: 'your@email.com', es: 'tu@email.com' },
+  'phone': { en: 'Phone', es: 'Teléfono' },
+  'phone_placeholder': { en: 'Your phone (optional)', es: 'Tu teléfono (opcional)' },
+  'cv_upload': { en: 'Upload CV', es: 'Subir CV' },
+  'cv_formats': { en: 'PDF or Word, max 5MB', es: 'PDF o Word, máx 5MB' },
+  'cv_required': { en: 'Required field', es: 'Campo requerido' },
+  'cover_letter': { en: 'Additional message', es: 'Mensaje adicional' },
+  'cover_letter_placeholder': {
+    en: 'Tell us why you\'re interested in this offer (optional)...',
+    es: 'Cuéntanos por qué te interesa esta oferta (opcional)…',
+  },
+  'optional': { en: 'optional', es: 'opcional' },
+  'privacy_consent': {
+    en: 'I have read and accept the',
+    es: 'He leído y acepto la',
+  },
+  'privacy_policy': { en: 'privacy policy', es: 'política de privacidad' },
+  'privacy_consent_suffix': {
+    en: 'and consent to the processing of my personal data to process my application.',
+    es: 'y consiento el tratamiento de mis datos personales para procesar mi candidatura.',
+  },
+  'submit_application': { en: 'Submit application', es: 'Enviar aplicación' },
+  'submitting': { en: 'Submitting...', es: 'Enviando…' },
+  'submit_cv': { en: 'Submit my CV', es: 'Enviar mi CV' },
+  'application_sent': { en: 'Application sent!', es: '¡Aplicación enviada!' },
+  'application_sent_message': {
+    en: 'We have received your CV. We will contact you soon.',
+    es: 'Hemos recibido tu CV correctamente. Nos pondremos en contacto contigo pronto.',
+  },
+  'cv_stored_securely': {
+    en: 'Your CV is stored securely on our servers',
+    es: 'Tu CV se almacena de forma segura en nuestros servidores',
+  },
+  'linkedin': { en: 'LinkedIn', es: 'LinkedIn' },
+  'linkedin_placeholder': { en: 'LinkedIn profile URL (optional)', es: 'URL de perfil LinkedIn (opcional)' },
+  'imc_registered': { en: 'IMC Registered', es: 'Registrado en IMC' },
+  'yes': { en: 'Yes', es: 'Sí' },
+  'no': { en: 'No', es: 'No' },
+  // Empty state
+  'no_jobs_title': { en: 'No positions available', es: 'No hay ofertas disponibles' },
+  'no_jobs_message': {
+    en: 'We don\'t have open positions matching your criteria right now, but new jobs are added regularly.',
+    es: 'No tenemos ofertas que coincidan con tus criterios en este momento, pero se añaden nuevas ofertas regularmente.',
+  },
+  'send_cv_cta': { en: 'Send us your CV', es: 'Envíanos tu CV' },
+}
+
+export function t(key: string, locale: Locale): string {
+  return STRINGS[key]?.[locale] ?? key
+}
