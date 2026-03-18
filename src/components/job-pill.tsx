@@ -16,8 +16,8 @@ const SIZE_CLASSES: Record<PillSize, string> = {
 
 export function JobPill({ icon, children, size = 'sm' }: JobPillProps) {
   return (
-    <span className={`job-pill inline-flex items-center font-semibold tracking-wide text-primary/85 ${SIZE_CLASSES[size]}`}>
-      {icon && <span className="shrink-0 text-primary/50">{icon}</span>}
+    <span className={`job-pill inline-flex items-center font-semibold tracking-wide ${SIZE_CLASSES[size]}`}>
+      {icon && <span className="shrink-0 job-pill-icon">{icon}</span>}
       {children}
     </span>
   )
