@@ -15,21 +15,42 @@ export interface JobCardProps {
   renderWrapper?: (props: { children: ReactNode; job: JobListItem; index: number }) => ReactNode
 }
 
-function formatCounty(county: string): string {
+function capitalizeCounty(county: string): string {
   if (!county) return ''
-  if (county.startsWith('Co.')) return county
-  return `Co. ${county.charAt(0).toUpperCase()}${county.slice(1)}`
+  return county.split(/[\s-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 }
 
-function formatDuration(contractType?: string | null, locale: Locale = 'en'): string | null {
-  if (!contractType) return null
-  const labels: Record<string, Record<Locale, string>> = {
-    permanent: { en: 'Permanent', es: 'Permanente' },
-    'fixed-term': { en: 'Fixed Term', es: 'Temporal' },
-    locum: { en: 'Locum', es: 'Locum' },
-    maternity: { en: 'Maternity', es: 'Cobertura' },
+function formatCounty(county: string): string {
+  if (!county) return ''
+  const cap = capitalizeCounty(county)
+  if (cap.startsWith('Co.')) return cap
+  return `Co. ${cap}`
+}
+
+function getContractBadge(job: JobListItem, locale: Locale): string | null {
+  if (!job.contractType) return null
+
+  if (job.contractType === 'permanent') {
+    return locale === 'es' ? 'Permanente' : 'Permanent'
   }
-  return labels[contractType]?.[locale] ?? contractType
+
+  const typeLabel = job.contractType === 'locum' ? 'Locum'
+    : job.contractType === 'maternity' ? (locale === 'es' ? 'Cobertura' : 'Maternity')
+    : (locale === 'es' ? 'Temporal' : 'Fixed Term')
+
+  // Try to extract months from title (e.g., "6mo" or "12mo")
+  const monthMatch = job.title.match(/(\d+)\s*mo(?:nths?)?/i)
+  if (monthMatch) {
+    const months = parseInt(monthMatch[1], 10)
+    if (months > 0) {
+      const unit = locale === 'es'
+        ? (months === 1 ? 'mes' : 'meses')
+        : (months === 1 ? 'month' : 'months')
+      return `${typeLabel}: ${months} ${unit}`
+    }
+  }
+
+  return typeLabel
 }
 
 export function JobCard({
@@ -49,8 +70,7 @@ export function JobCard({
 
   // County from job.county field (NOT from title — title may contain hospital name)
   const county = job.county ? formatCounty(job.county) : null
-  const duration = formatDuration(job.contractType, locale)
-  const colors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other
+  const contractBadge = getContractBadge(job, locale)
 
   // Description: truncated to ~2 lines
   const summary = job.descriptionSummary ? truncateSummary(job.descriptionSummary, 120) : null
@@ -65,20 +85,20 @@ export function JobCard({
           {/* Row 1: Badges — County + Duration + Closing Date */}
           <div className="flex items-center gap-2 flex-wrap mb-3">
             {county && (
-              <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${colors.bg} ${colors.text}`}>
-                <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium bg-gray-100 text-gray-600">
+                <svg className="w-3 h-3 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 {county}
               </span>
             )}
-            {duration && (
-              <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${colors.bg} ${colors.text}`}>
-                <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            {contractBadge && (
+              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium bg-gray-100 text-gray-600">
+                <svg className="w-3 h-3 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                {duration}
+                {contractBadge}
               </span>
             )}
             <div className="ml-auto">
