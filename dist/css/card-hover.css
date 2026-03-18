@@ -1,0 +1,42 @@
+.job-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.job-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+}
+
+.job-card-hover:hover .job-card-border {
+  border-color: var(--color-primary, #2d64b0);
+}
+
+/* Specialty shimmer — subtle, one sweep every ~8s with long pause */
+@keyframes shimmer-sweep {
+  0%, 80%, 100% { background-position: 200% 0; }
+  40% { background-position: -200% 0; }
+}
+
+.specialty-shimmer {
+  background: linear-gradient(
+    90deg,
+    currentColor 0%,
+    currentColor 40%,
+    rgba(109, 176, 255, 0.7) 50%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-sweep 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .specialty-shimmer {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}

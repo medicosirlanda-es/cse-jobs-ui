@@ -90,7 +90,7 @@ export function getClosedDate(closingDate?: string | null, locale: Locale = 'en'
   const date = new Date(closingDate)
   if (!isValid(date)) return null
 
-  const { format } = require('date-fns')
-  const { es: esLocale } = require('date-fns/locale')
-  return format(date, "MMM ''yy", { locale: locale === 'es' ? esLocale : undefined })
+  const month = date.toLocaleString(locale === 'es' ? 'es' : 'en', { month: 'short' })
+  const year = String(date.getFullYear()).slice(2)
+  return `${month} '${year}`
 }

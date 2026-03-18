@@ -2,7 +2,6 @@
 import {
   getCategoryLabel
 } from "../chunk-WGB7TBXP.js";
-import "../chunk-7QHK2FRA.js";
 
 // src/seo/job-posting-schema.ts
 function generateJobPostingSchema(job, options) {

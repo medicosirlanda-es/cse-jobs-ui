@@ -8,9 +8,6 @@ import {
   JOB_CATEGORIES,
   getCategoryLabel
 } from "./chunk-WGB7TBXP.js";
-import {
-  __require
-} from "./chunk-7QHK2FRA.js";
 
 // src/constants/counties.ts
 var IRISH_COUNTIES = [
@@ -283,9 +280,9 @@ function getClosedDate(closingDate, locale = "en") {
   if (!closingDate) return null;
   const date = new Date(closingDate);
   if (!isValid(date)) return null;
-  const { format } = __require("date-fns");
-  const { es: esLocale2 } = __require("date-fns/locale");
-  return format(date, "MMM ''yy", { locale: locale === "es" ? esLocale2 : void 0 });
+  const month = date.toLocaleString(locale === "es" ? "es" : "en", { month: "short" });
+  const year = String(date.getFullYear()).slice(2);
+  return `${month} '${year}`;
 }
 
 // src/utils/filter.ts
