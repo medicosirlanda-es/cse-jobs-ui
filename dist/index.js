@@ -460,6 +460,21 @@ function ClosingBadge({ closingDate, locale = "en" }) {
 
 // src/components/job-card.tsx
 import { Fragment, jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
+function formatCounty2(county) {
+  if (!county) return "";
+  if (county.startsWith("Co.")) return county;
+  return `Co. ${county.charAt(0).toUpperCase()}${county.slice(1)}`;
+}
+function formatDuration2(contractType, locale = "en") {
+  if (!contractType) return null;
+  const labels = {
+    permanent: { en: "Permanent", es: "Permanente" },
+    "fixed-term": { en: "Fixed Term", es: "Temporal" },
+    locum: { en: "Locum", es: "Locum" },
+    maternity: { en: "Maternity", es: "Cobertura" }
+  };
+  return labels[contractType]?.[locale] ?? contractType;
+}
 function JobCard({
   job,
   locale,
@@ -469,41 +484,55 @@ function JobCard({
   renderWrapper
 }) {
   const salaryText = formatSalary(job.salary, locale);
-  const isConsultant = job.category === "consultant";
+  const isConsultant = job.category === "consultant" || job.category === "registrar-sho";
   const parsed = isConsultant ? parseConsultantTitle(job.title) : null;
-  const displayTitle = parsed?.displayTitle || job.title;
-  const countyForBadge = parsed?.county || job.county;
+  const categoryLabel = getCategoryLabel(job.category, locale);
+  const specialty = parsed?.specialty || null;
+  const county = job.county ? formatCounty2(job.county) : null;
+  const duration = formatDuration2(job.contractType, locale);
+  const colors = CATEGORY_COLORS[job.category] || CATEGORY_COLORS.other;
   const card = /* @__PURE__ */ jsx2(
     Link,
     {
       href,
       className: "group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl",
       children: /* @__PURE__ */ jsx2("article", { className: "job-card-hover flex flex-col h-full bg-white rounded-xl border border-gray-200 job-card-border shadow-sm overflow-hidden", children: /* @__PURE__ */ jsxs2("div", { className: "p-5 flex flex-col flex-grow", children: [
-        /* @__PURE__ */ jsxs2("div", { className: "flex items-center justify-between gap-2 mb-3", children: [
-          /* @__PURE__ */ jsx2("div", { className: "flex items-center gap-1.5 flex-wrap", children: isConsultant ? /* @__PURE__ */ jsxs2(Fragment, { children: [
-            countyForBadge && /* @__PURE__ */ jsx2("span", { className: "px-2.5 py-1 text-[11px] font-medium rounded-full bg-sky-50 text-sky-700", children: countyForBadge }),
-            job.contractType && /* @__PURE__ */ jsx2("span", { className: `px-2.5 py-1 text-[11px] font-medium rounded-full ${CONTRACT_COLORS[job.contractType]}`, children: getContractLabel2(job.contractType, locale) })
-          ] }) : /* @__PURE__ */ jsx2("span", { className: `px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide rounded-full ${CATEGORY_BADGE_COLORS[job.category]}`, children: getCategoryLabel(job.category, locale) }) }),
-          /* @__PURE__ */ jsx2(ClosingBadge, { closingDate: job.closingDate, locale })
-        ] }),
-        /* @__PURE__ */ jsx2("h3", { className: "text-lg font-bold text-primary mb-2 line-clamp-2 group-hover:text-primary/80 transition-colors", children: displayTitle }),
-        !isConsultant && job.county && /* @__PURE__ */ jsxs2("div", { className: "flex items-center gap-1.5 text-sm text-gray-600 mb-2", children: [
-          /* @__PURE__ */ jsxs2("svg", { className: "w-4 h-4 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
-            /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
-            /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
+        /* @__PURE__ */ jsxs2("div", { className: "flex items-center gap-2 flex-wrap mb-3", children: [
+          county && /* @__PURE__ */ jsxs2("span", { className: `inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${colors.bg} ${colors.text}`, children: [
+            /* @__PURE__ */ jsxs2("svg", { className: "w-3 h-3 shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
+              /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
+              /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
+            ] }),
+            county
           ] }),
-          /* @__PURE__ */ jsx2("span", { className: "truncate", children: job.county })
-        ] }),
-        job.descriptionSummary && /* @__PURE__ */ jsx2("p", { className: "text-sm text-gray-600 line-clamp-3 mb-3 flex-grow", children: job.descriptionSummary }),
-        /* @__PURE__ */ jsxs2("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100 mt-auto", children: [
-          /* @__PURE__ */ jsxs2("div", { className: "flex items-center gap-3", children: [
-            salaryText && /* @__PURE__ */ jsx2("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
-            !isConsultant && job.contractType && /* @__PURE__ */ jsx2("span", { className: `text-xs px-2 py-0.5 rounded ${CONTRACT_COLORS[job.contractType]}`, children: getContractLabel2(job.contractType, locale) })
+          duration && /* @__PURE__ */ jsxs2("span", { className: `inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${colors.bg} ${colors.text}`, children: [
+            /* @__PURE__ */ jsx2("svg", { className: "w-3 h-3 shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
+            duration
           ] }),
-          /* @__PURE__ */ jsxs2("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200", children: [
-            t("view_offer", locale),
-            /* @__PURE__ */ jsx2("svg", { className: "w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) })
-          ] })
+          /* @__PURE__ */ jsx2("div", { className: "ml-auto", children: /* @__PURE__ */ jsx2(ClosingBadge, { closingDate: job.closingDate, locale }) })
+        ] }),
+        /* @__PURE__ */ jsxs2("div", { className: "flex items-start justify-between gap-3 mb-2", children: [
+          /* @__PURE__ */ jsx2("h3", { className: "text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-primary md:text-xl", children: isConsultant && specialty ? /* @__PURE__ */ jsxs2(Fragment, { children: [
+            /* @__PURE__ */ jsx2("span", { children: categoryLabel }),
+            " ",
+            /* @__PURE__ */ jsx2("span", { className: "specialty-shimmer", children: specialty })
+          ] }) : /* @__PURE__ */ jsx2("span", { children: job.title }) }),
+          /* @__PURE__ */ jsx2(
+            "svg",
+            {
+              "aria-hidden": "true",
+              className: "mt-1.5 h-4 w-4 shrink-0 text-gray-400 transition-all duration-200 group-hover:translate-x-1 group-hover:text-primary",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              stroke: "currentColor",
+              children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M14 5l7 7m0 0l-7 7m7-7H3" })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsx2("div", { className: "flex-grow" }),
+        salaryText && /* @__PURE__ */ jsxs2("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100 mt-3", children: [
+          /* @__PURE__ */ jsx2("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
+          /* @__PURE__ */ jsx2("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200", children: t("view_offer", locale) })
         ] })
       ] }) })
     }
