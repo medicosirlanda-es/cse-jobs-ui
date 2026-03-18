@@ -477,8 +477,8 @@ function ClosingBadge({ closingDate, locale = "en", variant = "inline" }) {
       info.text
     ] });
   }
-  return /* @__PURE__ */ jsxs("span", { className: `text-xs font-medium whitespace-nowrap ${INLINE_COLORS[info.color]}`, children: [
-    info.pulse && /* @__PURE__ */ jsx("span", { className: "inline-block w-1.5 h-1.5 bg-red-500 rounded-full mr-1 motion-safe:animate-pulse" }),
+  return /* @__PURE__ */ jsxs("span", { className: `inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap ${INLINE_COLORS[info.color]}`, children: [
+    info.pulse && /* @__PURE__ */ jsx("span", { className: "w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 motion-safe:animate-pulse" }),
     info.text
   ] });
 }

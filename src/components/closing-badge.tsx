@@ -40,9 +40,9 @@ export function ClosingBadge({ closingDate, locale = 'en', variant = 'inline' }:
   }
 
   return (
-    <span className={`text-xs font-medium whitespace-nowrap ${INLINE_COLORS[info.color]}`}>
+    <span className={`inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap ${INLINE_COLORS[info.color]}`}>
       {info.pulse && (
-        <span className="inline-block w-1.5 h-1.5 bg-red-500 rounded-full mr-1 motion-safe:animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 motion-safe:animate-pulse" />
       )}
       {info.text}
     </span>
