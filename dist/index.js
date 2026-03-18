@@ -544,8 +544,7 @@ function JobCard({
           contractBadge && /* @__PURE__ */ jsxs2("span", { className: "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium bg-gray-100 text-gray-600", children: [
             /* @__PURE__ */ jsx2("svg", { className: "w-3 h-3 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx2("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
             contractBadge
-          ] }),
-          /* @__PURE__ */ jsx2("div", { className: "ml-auto", children: /* @__PURE__ */ jsx2(ClosingBadge, { closingDate: job.closingDate, locale }) })
+          ] })
         ] }),
         /* @__PURE__ */ jsx2("h3", { className: "text-lg font-bold text-primary transition-colors duration-300 group-hover:text-primary/80 mb-1", children: isConsultant && specialty ? /* @__PURE__ */ jsxs2(Fragment, { children: [
           /* @__PURE__ */ jsx2("span", { children: categoryLabel }),
@@ -554,7 +553,8 @@ function JobCard({
         ] }) : /* @__PURE__ */ jsx2("span", { children: job.title }) }),
         summary && /* @__PURE__ */ jsx2("p", { className: "text-sm text-gray-500 line-clamp-2 mb-2", children: summary }),
         /* @__PURE__ */ jsx2("div", { className: "flex-grow" }),
-        /* @__PURE__ */ jsxs2("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100 mt-2", children: [
+        /* @__PURE__ */ jsxs2("div", { className: "flex items-center gap-3 pt-3 border-t border-gray-100 mt-2", children: [
+          /* @__PURE__ */ jsx2(ClosingBadge, { closingDate: job.closingDate, locale }),
           salaryText && /* @__PURE__ */ jsx2("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
           /* @__PURE__ */ jsxs2("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 ml-auto", children: [
             t("view_offer", locale),
@@ -1868,34 +1868,31 @@ function JobDetailHeader({ job, locale }) {
     addSuffix: true,
     locale: locale === "es" ? esLocale : void 0
   }) : null;
-  return /* @__PURE__ */ jsxs14("div", { className: "relative rounded-2xl bg-gradient-to-br from-gray-50 via-white to-gray-50/50 border border-gray-200/80 shadow-sm p-6 md:p-8", children: [
-    job.closingDate && /* @__PURE__ */ jsx15("div", { className: "absolute top-4 right-4 md:top-6 md:right-6", children: /* @__PURE__ */ jsx15(ClosingBadge, { closingDate: job.closingDate, locale, variant: "pill" }) }),
-    /* @__PURE__ */ jsxs14("div", { className: "space-y-3 pr-24 md:pr-48", children: [
-      /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-2 flex-wrap", children: [
-        county && /* @__PURE__ */ jsxs14("span", { className: "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700", children: [
-          /* @__PURE__ */ jsxs14("svg", { className: "w-3.5 h-3.5 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
-            /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
-            /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
-          ] }),
-          county
+  return /* @__PURE__ */ jsx15("div", { className: "rounded-2xl bg-gradient-to-br from-gray-50 via-white to-gray-50/50 border border-gray-200/80 shadow-sm p-6 md:p-8", children: /* @__PURE__ */ jsxs14("div", { className: "space-y-3", children: [
+    /* @__PURE__ */ jsxs14("div", { className: "flex items-center gap-2 flex-wrap", children: [
+      county && /* @__PURE__ */ jsxs14("span", { className: "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700", children: [
+        /* @__PURE__ */ jsxs14("svg", { className: "w-3.5 h-3.5 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: [
+          /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
+          /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
         ] }),
-        contractBadge && /* @__PURE__ */ jsxs14("span", { className: "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700", children: [
-          /* @__PURE__ */ jsx15("svg", { className: "w-3.5 h-3.5 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
-          contractBadge
-        ] })
+        county
       ] }),
-      /* @__PURE__ */ jsx15("h1", { className: "text-2xl md:text-3xl font-bold text-primary tracking-tight leading-tight", children: isConsultant && specialty ? /* @__PURE__ */ jsxs14(Fragment5, { children: [
-        /* @__PURE__ */ jsx15("span", { children: categoryLabel }),
-        " ",
-        /* @__PURE__ */ jsx15("span", { className: "specialty-shimmer", children: specialty })
-      ] }) : job.title }),
-      timeAgo && /* @__PURE__ */ jsxs14("p", { className: "text-sm text-gray-400", children: [
-        publishedLabel,
-        " ",
-        timeAgo
+      contractBadge && /* @__PURE__ */ jsxs14("span", { className: "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700", children: [
+        /* @__PURE__ */ jsx15("svg", { className: "w-3.5 h-3.5 shrink-0 text-gray-400", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx15("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" }) }),
+        contractBadge
       ] })
+    ] }),
+    /* @__PURE__ */ jsx15("h1", { className: "text-2xl md:text-3xl font-bold text-primary tracking-tight leading-tight", children: isConsultant && specialty ? /* @__PURE__ */ jsxs14(Fragment5, { children: [
+      /* @__PURE__ */ jsx15("span", { children: categoryLabel }),
+      " ",
+      /* @__PURE__ */ jsx15("span", { className: "specialty-shimmer", children: specialty })
+    ] }) : job.title }),
+    timeAgo && /* @__PURE__ */ jsxs14("p", { className: "text-sm text-gray-400", children: [
+      publishedLabel,
+      " ",
+      timeAgo
     ] })
-  ] });
+  ] }) });
 }
 
 // src/components/job-detail-description.tsx

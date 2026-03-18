@@ -101,9 +101,6 @@ export function JobCard({
                 {contractBadge}
               </span>
             )}
-            <div className="ml-auto">
-              <ClosingBadge closingDate={job.closingDate} locale={locale} />
-            </div>
           </div>
 
           {/* Row 2: Title — "Category Specialty" with shimmer on specialty */}
@@ -128,8 +125,9 @@ export function JobCard({
           {/* Spacer */}
           <div className="flex-grow" />
 
-          {/* Row 4: Footer — Salary + CTA */}
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-2">
+          {/* Row 4: Footer — Closing date + Salary + CTA */}
+          <div className="flex items-center gap-3 pt-3 border-t border-gray-100 mt-2">
+            <ClosingBadge closingDate={job.closingDate} locale={locale} />
             {salaryText && (
               <span className="text-sm font-semibold text-primary tabular-nums">
                 {salaryText}

@@ -1,7 +1,6 @@
 import type { Job, Locale } from '../types'
-import { getCategoryLabel, CATEGORY_COLORS } from '../constants/categories'
+import { getCategoryLabel } from '../constants/categories'
 import { parseConsultantTitle } from '../utils/format'
-import { ClosingBadge } from './closing-badge'
 import { formatDistanceToNow } from 'date-fns'
 import { es as esLocale } from 'date-fns/locale'
 
@@ -33,7 +32,6 @@ function getContractBadge(
     return locale === 'es' ? 'Permanente' : 'Permanent'
   }
 
-  // For non-permanent: "Locum: 6 months" or just "Locum"
   const typeLabel = contractType === 'locum' ? 'Locum'
     : contractType === 'maternity' ? (locale === 'es' ? 'Cobertura' : 'Maternity')
     : (locale === 'es' ? 'Temporal' : 'Fixed Term')
@@ -68,16 +66,9 @@ export function JobDetailHeader({ job, locale }: JobDetailHeaderProps) {
     : null
 
   return (
-    <div className="relative rounded-2xl bg-gradient-to-br from-gray-50 via-white to-gray-50/50 border border-gray-200/80 shadow-sm p-6 md:p-8">
-      {/* Closing badge — top right as pill */}
-      {job.closingDate && (
-        <div className="absolute top-4 right-4 md:top-6 md:right-6">
-          <ClosingBadge closingDate={job.closingDate} locale={locale} variant="pill" />
-        </div>
-      )}
-
-      <div className="space-y-3 pr-24 md:pr-48">
-        {/* Row 1: Location + Contract in one line */}
+    <div className="rounded-2xl bg-gradient-to-br from-gray-50 via-white to-gray-50/50 border border-gray-200/80 shadow-sm p-6 md:p-8">
+      <div className="space-y-3">
+        {/* Row 1: Location + Contract */}
         <div className="flex items-center gap-2 flex-wrap">
           {county && (
             <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700">
