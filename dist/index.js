@@ -268,8 +268,11 @@ function getClosingDateInfo(closingDate, locale = "en") {
       pulse: false
     };
   }
+  const day = date.getDate();
+  const month = date.toLocaleString(locale === "es" ? "es" : "en", { month: "short" });
+  const closesLabel = locale === "es" ? "Cierra" : "Closes";
   return {
-    text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+    text: `${closesLabel} ${day} ${month}`,
     daysLeft,
     urgent: false,
     color: "emerald",
@@ -423,7 +426,7 @@ var STRINGS = {
   },
   "submit_application": { en: "Submit application", es: "Enviar aplicaci\xF3n" },
   "submitting": { en: "Submitting...", es: "Enviando\u2026" },
-  "submit_cv": { en: "Submit my CV", es: "Enviar mi CV" },
+  "submit_cv": { en: "Apply Now", es: "Enviar mi CV" },
   "application_sent": { en: "Application sent!", es: "\xA1Aplicaci\xF3n enviada!" },
   "application_sent_message": {
     en: "We have received your CV. We will contact you soon.",
@@ -487,8 +490,8 @@ function ClosingBadge({ closingDate, locale = "en", variant = "inline" }) {
 import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 var SIZE_CLASSES = {
   xs: "px-2 py-0.5 text-[10px] gap-1 rounded-md",
-  sm: "px-2.5 py-1 text-[11px] gap-1.5 rounded-lg",
-  md: "px-3 py-1.5 text-xs gap-1.5 rounded-lg"
+  sm: "px-3 py-1.5 text-[11px] gap-1.5 rounded-lg",
+  md: "px-3.5 py-1.5 text-xs gap-1.5 rounded-xl"
 };
 function JobPill({ icon, children, size = "sm" }) {
   return /* @__PURE__ */ jsxs2("span", { className: `job-pill inline-flex items-center font-semibold tracking-wide ${SIZE_CLASSES[size]}`, children: [
@@ -567,10 +570,12 @@ function JobCard({
         ] }) : /* @__PURE__ */ jsx3("span", { children: job.title }) }),
         summary && /* @__PURE__ */ jsx3("p", { className: "text-sm text-gray-500 line-clamp-2 mb-2", children: summary }),
         /* @__PURE__ */ jsx3("div", { className: "flex-grow" }),
-        /* @__PURE__ */ jsxs3("div", { className: "flex items-center gap-3 pt-3 border-t border-gray-100 mt-2", children: [
-          /* @__PURE__ */ jsx3(ClosingBadge, { closingDate: job.closingDate, locale }),
-          salaryText && /* @__PURE__ */ jsx3("span", { className: "text-sm font-semibold text-primary tabular-nums", children: salaryText }),
-          /* @__PURE__ */ jsxs3("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 ml-auto", children: [
+        /* @__PURE__ */ jsxs3("div", { className: "flex items-center justify-between pt-3 border-t border-gray-100 mt-2", children: [
+          /* @__PURE__ */ jsxs3("div", { className: "flex items-center gap-2 min-w-0", children: [
+            /* @__PURE__ */ jsx3(ClosingBadge, { closingDate: job.closingDate, locale }),
+            salaryText && /* @__PURE__ */ jsx3("span", { className: "text-xs font-semibold text-primary tabular-nums truncate", children: salaryText })
+          ] }),
+          /* @__PURE__ */ jsxs3("span", { className: "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 shrink-0", children: [
             t("view_offer", locale),
             /* @__PURE__ */ jsx3("svg", { className: "w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx3("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) })
           ] })

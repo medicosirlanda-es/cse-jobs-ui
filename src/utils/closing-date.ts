@@ -75,8 +75,12 @@ export function getClosingDateInfo(
     }
   }
 
+  // For dates > 30 days, show the actual date
+  const day = date.getDate()
+  const month = date.toLocaleString(locale === 'es' ? 'es' : 'en', { month: 'short' })
+  const closesLabel = locale === 'es' ? 'Cierra' : 'Closes'
   return {
-    text: `${prefix} ${daysLeft} ${dayWord(daysLeft)}`,
+    text: `${closesLabel} ${day} ${month}`,
     daysLeft,
     urgent: false,
     color: 'emerald',

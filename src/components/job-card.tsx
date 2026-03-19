@@ -116,15 +116,17 @@ export function JobCard({
           {/* Spacer */}
           <div className="flex-grow" />
 
-          {/* Row 4: Footer — Closing + Salary + CTA */}
-          <div className="flex items-center gap-3 pt-3 border-t border-gray-100 mt-2">
-            <ClosingBadge closingDate={job.closingDate} locale={locale} />
-            {salaryText && (
-              <span className="text-sm font-semibold text-primary tabular-nums">
-                {salaryText}
-              </span>
-            )}
-            <span className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 ml-auto">
+          {/* Row 4: Footer — Closing (left) + CTA (right) */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <ClosingBadge closingDate={job.closingDate} locale={locale} />
+              {salaryText && (
+                <span className="text-xs font-semibold text-primary tabular-nums truncate">
+                  {salaryText}
+                </span>
+              )}
+            </div>
+            <span className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/5 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-200 shrink-0">
               {t('view_offer', locale)}
               <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

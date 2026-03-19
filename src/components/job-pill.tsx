@@ -10,8 +10,8 @@ interface JobPillProps {
 
 const SIZE_CLASSES: Record<PillSize, string> = {
   xs: 'px-2 py-0.5 text-[10px] gap-1 rounded-md',
-  sm: 'px-2.5 py-1 text-[11px] gap-1.5 rounded-lg',
-  md: 'px-3 py-1.5 text-xs gap-1.5 rounded-lg',
+  sm: 'px-3 py-1.5 text-[11px] gap-1.5 rounded-lg',
+  md: 'px-3.5 py-1.5 text-xs gap-1.5 rounded-xl',
 }
 
 export function JobPill({ icon, children, size = 'sm' }: JobPillProps) {

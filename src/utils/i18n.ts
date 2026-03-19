@@ -62,7 +62,7 @@ const STRINGS: Record<string, Record<Locale, string>> = {
   },
   'submit_application': { en: 'Submit application', es: 'Enviar aplicación' },
   'submitting': { en: 'Submitting...', es: 'Enviando…' },
-  'submit_cv': { en: 'Submit my CV', es: 'Enviar mi CV' },
+  'submit_cv': { en: 'Apply Now', es: 'Enviar mi CV' },
   'application_sent': { en: 'Application sent!', es: '¡Aplicación enviada!' },
   'application_sent_message': {
     en: 'We have received your CV. We will contact you soon.',
